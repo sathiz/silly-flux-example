@@ -7,6 +7,12 @@ var AccountActions = {
 			actionType: AccountConstants.SEARCH_ACCOUNTS,
 			search: search
 		});
+	},
+	accountSearchResults: function(results) {
+		AccountDispatcher.handleServerAction({
+			actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS,
+			results: results
+		});
 	}
 };
 

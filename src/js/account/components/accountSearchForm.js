@@ -5,9 +5,7 @@ var AccountActions = require('../actions/accountActions');
 
 var AccountSearch = React.createClass({
 	getInitialState: function () {
-		return {
-			search: AccountStore.getLastSearch()
-		};
+		return { search: AccountStore.getLastSearch() };
 	},
 	componentWillMount: function () {
 		AccountStore.addChangeListener(this.onStoreChange);
@@ -16,13 +14,11 @@ var AccountSearch = React.createClass({
 		AccountStore.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
-		this.setState({
-			search: AccountStore.getLastSearch()
-		});
+		this.setState({ search: AccountStore.getLastSearch() });
 	},
 	onChange: function (event) {
 		if (!event) return;
-		this.setState({search: event.target.value});
+		this.setState({ search: event.target.value });
 	},
 	onKeyDown: function (event) {
 		// search on enter key
@@ -30,7 +26,6 @@ var AccountSearch = React.createClass({
 			this.search();
 	},
 	search: function () {
-		console.log("_search, this.state:", this.state, "event:", event);
 		AccountActions.searchAccounts(this.state.search);
 	},
 	render: function () {
@@ -50,7 +45,7 @@ var AccountSearch = React.createClass({
 				</div>
 				<button className="btn btn-primary" type="submit" onClick={this.search}>Search</button>
 			</div>
-			);
+		);
 	}
 });
 module.exports = AccountSearch;
