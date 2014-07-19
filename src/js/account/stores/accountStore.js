@@ -32,18 +32,12 @@ var AccountStore = merge(EventEmitter.prototype, {
 	getLastSearch: function() {
 		return _lastSearch;
 	},
-	searchForAccount: function (search) {
-		_lastSearch = search;
-		this.emitChange();
-		//
-	},
 	dispatcherIndex: AppDispatcher.register(function (payload) {
 		console.log('AccountStore, payload:', payload);
 
 		var actionHandlerMap = {};
 		actionHandlerMap[AppConstants.SEARCH_ACCOUNTS] = function (action) {
 			_lastSearch = action.search;
-			AccountStore.emitChange();
 			// TODO - setTimeout, fill accounts, dispatch SEARCH_RESULTS action
 		};
 

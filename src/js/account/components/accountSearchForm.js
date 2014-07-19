@@ -3,34 +3,41 @@ var React = require('react');
 var AccountStore = require('../stores/accountStore');
 var AccountActions = require('../actions/accountActions');
 
-function getLastSearch() {
-	return {search: AccountStore.getLastSearch()};
-}
-
 var AccountSearch = React.createClass({
 	getInitialState: function () {
-		return getLastSearch();
+		return {
+			search: AccountStore.getLastSearch(),
+			disabled: false
+		};
 	},
 	componentWillMount: function () {
-		AccountStore.addChangeListener(this._onStoreChange);
+		AccountStore.addChangeListener(this.onStoreChange);
 	},
 	componentWillUnmount: function () {
-		AccountStore.removeChangeListener(this._onStoreChange);
+		AccountStore.removeChangeListener(this.onStoreChange);
 	},
-	_onStoreChange: function () {
-		this.setState(getLastSearch());
+	onStoreChange: function () {
+		console.log('onStoreChange');
+		this.setState({
+			search: AccountStore.getLastSearch(),
+			disabled: false
+		});
 	},
-	_onChange: function (event) {
+	onChange: function (event) {
 		if (!event) return;
-		this.setState({search: event.target.search});
+		this.setState({search: event.target.value});
 	},
-	_onKeyDown: function (event) {
+	onKeyDown: function (event) {
 		// search on enter key
 		if (event && event.keyCode === 13)
-			this._search();
+			this.search();
 	},
-	_search: function() {
+	search: function () {
 		console.log("_search, this.state:", this.state, "event:", event);
+		this.setState({
+			search: AccountStore.getLastSearch(),
+			disabled: true
+		});
 		AccountActions.searchAccounts(this.state.search);
 	},
 	render: function () {
@@ -43,14 +50,15 @@ var AccountSearch = React.createClass({
 					id="inputSearch"
 					placeholder="Search"
 					value={this.state.search}
-					onChange={this._onChange}
-					onKeyDown={this._onKeyDown}
+					onChange={this.onChange}
+					onKeyDown={this.onKeyDown}
 					autoFocus={true}
+					disabled={this.state.disabled}
 					/>
 				</div>
-				<button type="submit" onClick={this._search} className="btn btn-primary">Search</button>
+				<button className="btn btn-primary" disabled={this.state.disabled} type="submit" onClick={this.search}>Search</button>
 			</div>
-		);
+			);
 	}
 });
 module.exports = AccountSearch;
