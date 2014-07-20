@@ -1,5 +1,6 @@
 var AccountConstants = require('../constants/accountConstants');
 var AccountDispatcher = require('../dispatchers/accountDispatcher');
+var AccountServerCalls = require('./accountServerCalls');
 
 var AccountActions = {
 	searchAccounts: function(search) {
@@ -7,11 +8,17 @@ var AccountActions = {
 			actionType: AccountConstants.SEARCH_ACCOUNTS,
 			search: search
 		});
-	},
-	accountSearchResults: function(results) {
-		AccountDispatcher.handleServerAction({
-			actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS,
-			results: results
+		AccountServerCalls.searchAccounts(search).end(function(err, res) {
+			if(err) {
+				return AccountDispatcher.handleServerAction({
+					actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS_ERROR,
+					error: err
+				});
+			}
+			AccountDispatcher.handleServerAction({
+				actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS_OK,
+				results: res.body
+			});
 		});
 	}
 };

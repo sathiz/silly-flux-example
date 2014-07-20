@@ -32,24 +32,16 @@ var AccountStore = merge(EventEmitter.prototype, {
 		var actionHandlerMap = {};
 		actionHandlerMap[AppConstants.SEARCH_ACCOUNTS] = function (action) {
 			_lastSearch = action.search;
-
-			// TODO - server call here
-			setTimeout(function(){
-				AppActions.accountSearchResults(_.map(_.range(0, 10), function (i) {
-					return {
-						id: i,
-						name: 'Account ' + i,
-						domainName: 'account' + i + '.mindflash.com',
-						owner: 'owner@domain' + i + '.com'
-					};
-				}));
-			}, 2000);
 			AccountStore.emitChange();
 		};
 
-		actionHandlerMap[AppConstants.ACCOUNT_SEARCH_RESULTS] = function (action) {
+		actionHandlerMap[AppConstants.ACCOUNT_SEARCH_RESULTS_OK] = function (action) {
 			_searchResults = action.results;
 			AccountStore.emitChange();
+		};
+
+		actionHandlerMap[AppConstants.ACCOUNT_SEARCH_RESULTS_ERROR] = function (action) {
+			console.log(action.error); // TODO
 		};
 
 		var action = payload.action; // this is our action from AppDispatcher.handleViewAction / handleServerAction
