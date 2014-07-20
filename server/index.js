@@ -16,7 +16,7 @@ server.route({
 server.route({
 	method: 'GET',
 	path: '/favicon.ico',
-	handler: { file: path.join(__dirname, '/../client/favicon.ico') },
+	handler: { file: path.join(__dirname, '/../client/images/favicon.ico') },
 	config: { cache: { expiresIn: 86400000 } } // 1 day
 });
 

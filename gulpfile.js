@@ -50,8 +50,8 @@ gulp.task('copy', function () {
 	gulp.src('src/**/*.html', {base: './src'})
 		.pipe(gulp.dest('./client/'));
 
-	gulp.src('src/**/*', {base: './src/images'})
-		.pipe(gulp.dest('./client/'));
+	gulp.src('src/images/**/*', {base: './src/images'})
+		.pipe(gulp.dest('./client/images/'));
 });
 
 gulp.task('build', buildScript({file: 'main.js', watch: false}));
