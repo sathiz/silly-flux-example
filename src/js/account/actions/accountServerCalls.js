@@ -1,6 +1,6 @@
 var superagent = require('superagent');
 
-var AccountServerCalls = {
+var accountServerCalls = {
 	searchAccounts: function (search) {
 		return superagent
 			.get('/api/account?search=' + search)
@@ -8,4 +8,4 @@ var AccountServerCalls = {
 	}
 };
 
-module.exports = AccountServerCalls;
+module.exports = accountServerCalls;

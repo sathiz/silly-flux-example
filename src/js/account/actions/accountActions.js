@@ -1,26 +1,26 @@
-var AccountConstants = require('../constants/accountConstants');
-var AccountDispatcher = require('../dispatchers/accountDispatcher');
-var AccountServerCalls = require('./accountServerCalls');
+var accountConstants = require('../constants/accountConstants');
+var accountDispatcher = require('../dispatchers/accountDispatcher');
+var accountServerCalls = require('./accountServerCalls');
 
-var AccountActions = {
+var accountActions = {
 	searchAccounts: function(search) {
-		AccountDispatcher.handleViewAction({
-			actionType: AccountConstants.SEARCH_ACCOUNTS,
+		accountDispatcher.handleViewAction({
+			actionType: accountConstants.SEARCH_ACCOUNTS,
 			search: search
 		});
-		AccountServerCalls.searchAccounts(search).end(function(err, res) {
+		accountServerCalls.searchAccounts(search).end(function(err, res) {
 			if(err || res.error) {
-				return AccountDispatcher.handleServerAction({
-					actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS_ERROR,
+				return accountDispatcher.handleServerAction({
+					actionType: accountConstants.ACCOUNT_SEARCH_RESULTS_ERROR,
 					error: err || res.body
 				});
 			}
-			AccountDispatcher.handleServerAction({
-				actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS_OK,
+			accountDispatcher.handleServerAction({
+				actionType: accountConstants.ACCOUNT_SEARCH_RESULTS_OK,
 				results: res.body
 			});
 		});
 	}
 };
 
-module.exports = AccountActions;
+module.exports = accountActions;

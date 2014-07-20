@@ -1,6 +1,5 @@
-var AppDispatcher = require('../dispatchers/accountDispatcher');
-var AppConstants = require('../constants/accountConstants');
-var AppActions = require('../actions/accountActions');
+var appDispatcher = require('../dispatchers/accountDispatcher');
+var appConstants = require('../constants/accountConstants');
 var merge = require('react/lib/merge');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
@@ -10,7 +9,7 @@ var CHANGE_EVENT = 'change';
 var _lastSearch = null;
 var _searchResults = [];
 
-var AccountStore = merge(EventEmitter.prototype, {
+var accountStore = merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -26,25 +25,25 @@ var AccountStore = merge(EventEmitter.prototype, {
 	getSearchResults: function() {
 		return _searchResults;
 	},
-	dispatcherIndex: AppDispatcher.register(function (payload) {
-		console.log('AccountStore, payload:', payload);
+	dispatcherIndex: appDispatcher.register(function (payload) {
+		console.log('accountStore, payload:', payload);
 
 		var actionHandlerMap = {};
-		actionHandlerMap[AppConstants.SEARCH_ACCOUNTS] = function (action) {
+		actionHandlerMap[appConstants.SEARCH_ACCOUNTS] = function (action) {
 			_lastSearch = action.search;
-			AccountStore.emitChange();
+			accountStore.emitChange();
 		};
 
-		actionHandlerMap[AppConstants.ACCOUNT_SEARCH_RESULTS_OK] = function (action) {
+		actionHandlerMap[appConstants.ACCOUNT_SEARCH_RESULTS_OK] = function (action) {
 			_searchResults = action.results;
-			AccountStore.emitChange();
+			accountStore.emitChange();
 		};
 
-		actionHandlerMap[AppConstants.ACCOUNT_SEARCH_RESULTS_ERROR] = function (action) {
+		actionHandlerMap[appConstants.ACCOUNT_SEARCH_RESULTS_ERROR] = function (action) {
 			console.log(action.error); // TODO
 		};
 
-		var action = payload.action; // this is our action from AppDispatcher.handleViewAction / handleServerAction
+		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
 		if (actionHandlerMap[action.actionType])
 			actionHandlerMap[action.actionType](action);
 
@@ -52,4 +51,4 @@ var AccountStore = merge(EventEmitter.prototype, {
 	})
 });
 
-module.exports = AccountStore;
+module.exports = accountStore;

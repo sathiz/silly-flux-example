@@ -107,7 +107,6 @@ Dispatcher.prototype = merge(Dispatcher.prototype, {
 		});
 		return Promise.all(selectedPromises).then(callback);
 	}
-
 });
 
 module.exports = Dispatcher;

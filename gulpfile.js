@@ -46,11 +46,14 @@ function buildScript(params) {
 	};
 }
 
-gulp.task('copy-index', function () {
-	gulp.src('src/index.html')
-		.pipe(gulp.dest('client'));
+gulp.task('copy', function () {
+	gulp.src('src/**/*.html', {base: './src'})
+		.pipe(gulp.dest('./client/'));
+
+	gulp.src('src/**/*', {base: './src/images'})
+		.pipe(gulp.dest('./client/'));
 });
 
 gulp.task('build', buildScript({file: 'main.js', watch: false}));
 
-gulp.task('default', ['build', 'copy-index'], buildScript({file: 'main.js', watch: true}));
+gulp.task('default', ['build', 'copy'], buildScript({file: 'main.js', watch: true}));

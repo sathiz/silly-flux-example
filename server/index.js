@@ -5,14 +5,22 @@ var Joi = require('joi');
 
 var server = new Hapi.Server('localhost', 8080);
 
+// static assets
 server.route({
 	method: 'GET',
 	path: '/{path*}',
-	handler: {
-		directory: { path: path.join(__dirname, '/../client'), listing: false, index: true }
-	}
+	handler: { directory: { path: path.join(__dirname, '/../client'), listing: false, index: true } }
 });
 
+// favicon
+server.route({
+	method: 'GET',
+	path: '/favicon.ico',
+	handler: { file: path.join(__dirname, '/../client/favicon.ico') },
+	config: { cache: { expiresIn: 86400000 } } // 1 day
+});
+
+// api calls
 server.route({
 	method: 'GET',
 	path: '/api/account',
