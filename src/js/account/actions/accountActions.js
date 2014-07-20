@@ -9,10 +9,10 @@ var AccountActions = {
 			search: search
 		});
 		AccountServerCalls.searchAccounts(search).end(function(err, res) {
-			if(err) {
+			if(err || res.error) {
 				return AccountDispatcher.handleServerAction({
 					actionType: AccountConstants.ACCOUNT_SEARCH_RESULTS_ERROR,
-					error: err
+					error: err || res.body
 				});
 			}
 			AccountDispatcher.handleServerAction({
