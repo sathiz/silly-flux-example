@@ -1,5 +1,7 @@
 var path = require('path');
 var Hapi = require('hapi');
+var Good = require('good');
+var Joi = require('joi');
 
 var server = new Hapi.Server('localhost', 8080);
 
@@ -14,7 +16,14 @@ server.route({
 server.route({
 	method: 'GET',
 	path: '/api/account',
-	handler: require('./handlers/getAccounts')
+	handler: require('./handlers/getAccounts'),
+	config: {
+		validate: {
+			query: {
+				search: Joi.string().optional()
+			}
+		}
+	}
 });
 
 server.route({
@@ -23,6 +32,9 @@ server.route({
 	handler: require('./handlers/getAccountDetails')
 });
 
-server.start(function () {
-	console.log('Server running at:', server.info.uri);
+server.pack.register(Good, function (err) {
+	if (err) throw err; // something bad happened loading the plugin
+	server.start(function () {
+		server.log('info', 'Server running at: ' + server.info.uri);
+	});
 });
