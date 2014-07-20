@@ -7,7 +7,7 @@ var watchify = require('watchify');
 var notify = require("gulp-notify");
 
 var scriptsDir = './src/js';
-var buildDir = './dist/js';
+var buildDir = './client/js';
 
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
@@ -48,7 +48,7 @@ function buildScript(params) {
 
 gulp.task('copy-index', function () {
 	gulp.src('src/index.html')
-		.pipe(gulp.dest('dist'));
+		.pipe(gulp.dest('client'));
 });
 
 gulp.task('build', buildScript({file: 'main.js', watch: false}));

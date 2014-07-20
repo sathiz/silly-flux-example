@@ -16,7 +16,8 @@
 	"dependencies": {
 		"browserify": "^4.2.1",
 		"es6-promise": "^1.0.0",
-		"lodash": "^2.4.1",
-		"react": "^0.10.0"
+		"oppressor": "0.0.1",
+		"react": "^0.10.0",
+		"superagent": "^0.18.2"
 	}
 }

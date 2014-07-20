@@ -1,0 +1,12 @@
+{
+	"name": "changeAccountOwner",
+	"version": "0.0.0",
+	"description": "",
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"filed": "^0.1.0",
+		"mysql": "^2.4.1",
+		"oppressor": "0.0.1"
+	}
+}
