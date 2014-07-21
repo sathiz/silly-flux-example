@@ -8,7 +8,8 @@ var CHANGE_EVENT = 'change';
 
 var _lastSearch = null;
 var _searchResults = [];
-var _sort = {field: 'name', asc: true};
+var _sort = null;
+var _error = null;
 
 var accountStore = merge(EventEmitter.prototype, {
 	emitChange: function () {
@@ -26,19 +27,25 @@ var accountStore = merge(EventEmitter.prototype, {
 	getSearchResults: function() {
 		return _searchResults;
 	},
+	getError: function() {
+		return _error;
+	},
 	getSearchSort: function() {
-		//
+		return _sort;
 	},
 	sortSearchResults: function(field) {
 		if(!_searchResults.length) return;
+		if(!_sort) _sort = {field: null, asc: true};
 
-		var newSort = {field: field, asc: true};
-		if(_sort.field === field) newSort.asc = !_sort.asc;
-		_sort = newSort;
-
-		_searchResults = _.sortBy(_searchResults, field);
-		if(!_sort.asc)
+		// reversing existing sort
+		if (_sort.field === field) {
+			_sort.asc = !_sort.asc;
 			_searchResults = _searchResults.reverse();
+			return;
+		}
+
+		_sort = {field: field, asc: true};
+		_searchResults = _.sortBy(_searchResults, _sort.field);
 	},
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		console.log('accountStore.onDispatchedAction, payload:', payload);

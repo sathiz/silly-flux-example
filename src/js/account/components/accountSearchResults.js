@@ -3,10 +3,19 @@ var React = require('react');
 var accountStore = require('../stores/accountStore');
 var accountActions = require('../actions/accountActions');
 var accountSearchResult = require('./accountSearchResult');
+var errorView = require('../../shared/components/errorView');
+
+function getStateFromStore() {
+	return {
+		results: accountStore.getSearchResults(),
+		sortBy: accountStore.getSearchSort(),
+		error: accountStore.getError()
+	};
+}
 
 var accountSearchResults = React.createClass({
 	getInitialState: function () {
-		return { results: accountStore.getSearchResults(), sortBy: accountStore.getSearchSort() };
+		return getStateFromStore();
 	},
 	componentWillMount: function () {
 		accountStore.addChangeListener(this.onStoreChange);
@@ -15,7 +24,7 @@ var accountSearchResults = React.createClass({
 		accountStore.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
-		this.setState({ results: accountStore.getSearchResults(), sortBy: accountStore.getSearchSort() });
+		this.setState(getStateFromStore());
 	},
 	sortBy: function(field) {
 		return function() {
@@ -30,18 +39,21 @@ var accountSearchResults = React.createClass({
 		});
 
 		return (
-			<table className="table table-hover">
-				<thead>
-					<tr>
-						<th onClick={this.sortBy('name')}>Name</th>
-						<th onClick={this.sortBy('domainName')}>Domain</th>
-						<th onClick={this.sortBy('owner')}>Owner</th>
-					</tr>
-				</thead>
-				<tbody>
-              {results}
-				</tbody>
-			</table>
+			<div>
+				<errorView error={this.state.error} />
+				<table className="table table-hover">
+					<thead>
+						<tr>
+							<th onClick={this.sortBy('name')}>Name</th>
+							<th onClick={this.sortBy('domainName')}>Domain</th>
+							<th onClick={this.sortBy('owner')}>Owner</th>
+						</tr>
+					</thead>
+					<tbody>
+					{results}
+					</tbody>
+				</table>
+			</div>
 		);
 	}
 });
