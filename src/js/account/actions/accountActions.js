@@ -20,6 +20,12 @@ var accountActions = {
 				results: res.body
 			});
 		});
+	},
+	sortSearchResults: function(field) {
+		accountDispatcher.handleViewAction({
+			actionType: accountConstants.SORT_SEARCH_RESULTS,
+			field: field
+		});
 	}
 };
 

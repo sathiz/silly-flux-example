@@ -1,15 +1,12 @@
 /** @jsx React.DOM */
 var React = require('react');
 var accountStore = require('../stores/accountStore');
+var accountActions = require('../actions/accountActions');
 var accountSearchResult = require('./accountSearchResult');
-
-function getSearchResults() {
-	return { results: accountStore.getSearchResults() };
-}
 
 var accountSearchResults = React.createClass({
 	getInitialState: function () {
-		return getSearchResults();
+		return { results: accountStore.getSearchResults(), sortBy: accountStore.getSearchSort() };
 	},
 	componentWillMount: function () {
 		accountStore.addChangeListener(this.onStoreChange);
@@ -18,13 +15,17 @@ var accountSearchResults = React.createClass({
 		accountStore.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
-		this.setState(getSearchResults());
+		this.setState({ results: accountStore.getSearchResults(), sortBy: accountStore.getSearchSort() });
+	},
+	sortBy: function(field) {
+		return function() {
+			accountActions.sortSearchResults(field);
+		};
 	},
 	render: function () {
-		// todo - make a component for each result
-		var results = this.state.results.map(function (result, idx) {
+		var results = this.state.results.map(function (result) {
 			return (
-				<accountSearchResult key={result.id} result={result}/>
+				<accountSearchResult key={result.id} result={result} />
 			);
 		});
 
@@ -32,9 +33,9 @@ var accountSearchResults = React.createClass({
 			<table className="table table-hover">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Domain</th>
-						<th>Owner</th>
+						<th onClick={this.sortBy('name')}>Name</th>
+						<th onClick={this.sortBy('domainName')}>Domain</th>
+						<th onClick={this.sortBy('owner')}>Owner</th>
 					</tr>
 				</thead>
 				<tbody>

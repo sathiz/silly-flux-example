@@ -5,7 +5,7 @@ module.exports = function (request, reply) {
 			id: i,
 			name: 'Account ' + i,
 			domainName: 'account' + i + '.mindflash.com',
-			owner: 'owner@domain' + i + '.com'
+			owner: 'Some Owner ' + i + ' <owner@domain' + i + '.com>'
 		};
 	});
 	reply(accounts);
