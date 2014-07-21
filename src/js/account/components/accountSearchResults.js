@@ -1,12 +1,13 @@
 /** @jsx React.DOM */
 var React = require('react');
 var accountStore = require('../stores/accountStore');
+var accountSearchResult = require('./accountSearchResult');
 
 function getSearchResults() {
 	return { results: accountStore.getSearchResults() };
 }
 
-var accountSearch = React.createClass({
+var accountSearchResults = React.createClass({
 	getInitialState: function () {
 		return getSearchResults();
 	},
@@ -23,11 +24,7 @@ var accountSearch = React.createClass({
 		// todo - make a component for each result
 		var results = this.state.results.map(function (result, idx) {
 			return (
-				<tr>
-					<td>{result.name}</td>
-					<td>{result.domainName}</td>
-					<td>{result.owner}</td>
-				</tr>
+				<accountSearchResult key={result.id} result={result}/>
 			);
 		});
 
@@ -47,4 +44,4 @@ var accountSearch = React.createClass({
 		);
 	}
 });
-module.exports = accountSearch;
+module.exports = accountSearchResults;

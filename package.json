@@ -8,6 +8,8 @@
 		"envify": "~1.2.1",
 		"gulp": "~3.8.5",
 		"gulp-notify": "~1.4.0",
+		"gulp-streamify": "0.0.5",
+		"gulp-uglify": "^0.3.1",
 		"gulp-util": "~2.2.19",
 		"reactify": "~0.13.1",
 		"vinyl-source-stream": "~0.1.1",
@@ -16,7 +18,6 @@
 	"dependencies": {
 		"browserify": "^4.2.1",
 		"es6-promise": "^1.0.0",
-		"oppressor": "0.0.1",
 		"react": "^0.10.0",
 		"superagent": "^0.18.2"
 	}

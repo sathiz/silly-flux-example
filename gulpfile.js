@@ -5,6 +5,8 @@ var browserify = require('browserify');
 var reactify = require('reactify');
 var watchify = require('watchify');
 var notify = require("gulp-notify");
+var uglify = require('gulp-uglify');
+var streamify = require('gulp-streamify');
 
 var scriptsDir = './src/js';
 var buildDir = './client/js';
@@ -34,6 +36,7 @@ function buildScript(params) {
 			var stream = bundler.bundle({debug: true});
 			return stream.on('error', handleErrors)
 				.pipe(source(file))
+				//.pipe(streamify(uglify())) // TODO - for prod
 				.pipe(gulp.dest(buildDir + '/'));
 		}
 
