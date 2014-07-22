@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountStore = require('../stores/accountStore');
 
 var searchResult = React.createClass({
 	componentWillMount: function () {

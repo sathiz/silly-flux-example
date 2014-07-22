@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountStore = require('../stores/accountStore');
-var accountActions = require('../actions/accountActions');
+var accountStore = require('../stores/accountSearchStore');
+var accountSearchActions = require('../actions/accountSearchActions');
 
 function getLastSearch() {
 	return { search: accountStore.getLastSearch() };
@@ -31,7 +31,7 @@ var accountSearch = React.createClass({
 			this.search();
 	},
 	search: function () {
-		accountActions.searchAccounts(this.state.search);
+		accountSearchActions.searchAccounts(this.state.search);
 	},
 	render: function () {
 		return (

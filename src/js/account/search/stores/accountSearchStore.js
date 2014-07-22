@@ -1,5 +1,5 @@
-var appDispatcher = require('../dispatchers/accountDispatcher');
-var appConstants = require('../constants/accountConstants');
+var appDispatcher = require('../../dispatchers/accountDispatcher');
+var appConstants = require('../constants/accountSearchConstants');
 var merge = require('react/lib/merge');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
@@ -11,7 +11,7 @@ var _searchResults = [];
 var _sort = null;
 var _error = null;
 
-var accountStore = merge(EventEmitter.prototype, {
+var accountSearchStore = merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -48,26 +48,27 @@ var accountStore = merge(EventEmitter.prototype, {
 		_searchResults = _.sortBy(_searchResults, _sort.field);
 	},
 	onDispatchedAction: appDispatcher.register(function (payload) {
-		console.log('accountStore.onDispatchedAction, payload:', payload);
+		console.log('accountSearchStore.onDispatchedAction, payload:', payload);
 
 		var actionHandlerMap = {};
 		actionHandlerMap[appConstants.SEARCH_ACCOUNTS] = function (action) {
 			_lastSearch = action.search;
-			accountStore.emitChange();
+			accountSearchStore.emitChange();
 		};
 
 		actionHandlerMap[appConstants.ACCOUNT_SEARCH_RESULTS_OK] = function (action) {
 			_searchResults = action.results;
-			accountStore.emitChange();
+			accountSearchStore.emitChange();
 		};
 
 		actionHandlerMap[appConstants.ACCOUNT_SEARCH_RESULTS_ERROR] = function (action) {
-			console.log(action.error); // TODO
+			_error = action.error;
+			accountSearchStore.emitChange();
 		};
 
 		actionHandlerMap[appConstants.SORT_SEARCH_RESULTS] = function (action) {
-			accountStore.sortSearchResults(action.field);
-			accountStore.emitChange();
+			accountSearchStore.sortSearchResults(action.field);
+			accountSearchStore.emitChange();
 		};
 
 		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
@@ -78,4 +79,4 @@ var accountStore = merge(EventEmitter.prototype, {
 	})
 });
 
-module.exports = accountStore;
+module.exports = accountSearchStore;

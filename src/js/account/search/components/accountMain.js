@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountSearchForm = require('../components/accountSearchForm');
-var accountSearchResults = require('../components/accountSearchResults');
+var accountSearchForm = require('./accountSearchForm');
+var accountSearchResults = require('./accountSearchResults');
 
 var app = React.createClass({
 	render: function() {

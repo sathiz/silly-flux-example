@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Account = require('./account/components/accountMain');
+var Account = require('./account/search/components/accountMain');
 var React = require('react');
 
 React.renderComponent(
