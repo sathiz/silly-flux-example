@@ -5,7 +5,7 @@ var Joi = require('joi');
 
 var server = new Hapi.Server('localhost', 8080);
 
-// static assets
+// static assets - we'd normally only serve index.html here and cache it for a long time
 server.route({
 	method: 'GET',
 	path: '/{path*}',
@@ -17,7 +17,7 @@ server.route({
 	method: 'GET',
 	path: '/favicon.ico',
 	handler: { file: path.join(__dirname, '/../client/images/favicon.ico') },
-	config: { cache: { expiresIn: 86400000 } } // 1 day
+	config: { cache: { expiresIn: 30 * 86400000 } } // 30 days
 });
 
 // api calls

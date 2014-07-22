@@ -1,15 +1,13 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountSearchStore = require('../stores/accountSearchStore');
+var accountSearchStore = require('../../shared/stores/accountStore');
 var accountSearchActions = require('../actions/accountSearchActions');
 var accountSearchResult = require('./accountSearchResult');
-var errorView = require('../../../shared/components/errorView');
 
 function getStateFromStore() {
 	return {
 		results: accountSearchStore.getSearchResults(),
-		sortBy: accountSearchStore.getSearchSort(),
-		error: accountSearchStore.getError()
+		sortBy: accountSearchStore.getSearchSort()
 	};
 }
 
@@ -32,21 +30,33 @@ var accountSearchResults = React.createClass({
 		};
 	},
 	render: function () {
-		var results = this.state.results.map(function (result) {
+		if(!this.state.results.length)
+			return (<span></span>);
+
+		var results = this.state.results.map(function (account) {
 			return (
-				<accountSearchResult key={result.id} result={result} />
+				<accountSearchResult key={account.id} account={account} />
 			);
 		});
 
+		// todo - finish this up
+		var cssClasses = {
+			name: '',
+			domainName:'',
+			owner: ''
+		};
+		var sortBy = this.state.sortBy;
+		if(sortBy.field)
+			cssClasses[sortBy.field] = 'sort' + (sortBy.asc ? 'Asc' : 'Desc');
+
 		return (
 			<div>
-				<errorView error={this.state.error} />
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th onClick={this.sortBy('name')}>Name</th>
-							<th onClick={this.sortBy('domainName')}>Domain</th>
-							<th onClick={this.sortBy('owner')}>Owner</th>
+							<th onClick={this.sortBy('name')} className={cssClasses.name}>Name</th>
+							<th onClick={this.sortBy('domainName')} className={cssClasses.domainName}>Domain</th>
+							<th onClick={this.sortBy('owner')} className={cssClasses.owner}>Owner</th>
 						</tr>
 					</thead>
 					<tbody>

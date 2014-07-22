@@ -1,20 +1,19 @@
 /** @jsx React.DOM */
 var React = require('react');
+var accountSearchActions = require('../actions/accountSearchActions');
 
 var searchResult = React.createClass({
-	componentWillMount: function () {
-		//
-	},
-	componentWillUnmount: function () {
-		//
+	onClick: function (event) {
+		if (!event) return;
+		accountSearchActions.requestAccount(this.props.account.id);
 	},
 	render: function () {
-		var result = this.props.result;
+		var account = this.props.account;
 		return (
-			<tr>
-				<td>{result.name}</td>
-				<td>{result.domainName}</td>
-				<td>{result.owner}</td>
+			<tr onClick={this.onClick}>
+				<td>{account.name}</td>
+				<td>{account.domainName}</td>
+				<td>{account.owner}</td>
 			</tr>
 		);
 	}

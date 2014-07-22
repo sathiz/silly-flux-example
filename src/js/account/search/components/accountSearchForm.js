@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountStore = require('../stores/accountSearchStore');
+var accountStore = require('../../shared/stores/accountStore');
 var accountSearchActions = require('../actions/accountSearchActions');
 
 function getLastSearch() {
@@ -38,15 +38,8 @@ var accountSearch = React.createClass({
 			<div className="form-inline">
 				<div className="form-group">
 					<label className="sr-only" htmlFor="inputSearch">Search</label>
-					<input type="text"
-					className="form-control"
-					id="inputSearch"
-					placeholder="Search"
-					value={this.state.search}
-					onChange={this.onChange}
-					onKeyDown={this.onKeyDown}
-					autoFocus={true}
-					/>
+					<input type="text" className="form-control" id="inputSearch" placeholder="Search" value={this.state.search}
+						onChange={this.onChange} onKeyDown={this.onKeyDown} autoFocus={true} />
 				</div>
 				<button className="btn btn-primary" type="submit" onClick={this.search}>Search</button>
 			</div>
