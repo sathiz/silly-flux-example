@@ -28,7 +28,7 @@ server.route({
 	config: {
 		validate: {
 			query: {
-				search: Joi.string().optional()
+				search: Joi.string().allow(null, '').optional()
 			}
 		}
 	}

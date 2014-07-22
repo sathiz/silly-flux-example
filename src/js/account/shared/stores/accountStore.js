@@ -1,6 +1,6 @@
-var utils = require('../../shared/utils/utils');
-var appDispatcher = require('../../shared/dispatchers/accountDispatcher');
-var accountConstants = require('../../shared/constants/accountConstants');
+var utils = require('../utils/utils');
+var appDispatcher = require('../dispatchers/accountDispatcher');
+var accountConstants = require('../constants/accountConstants');
 var merge = require('react/lib/merge');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
@@ -8,21 +8,22 @@ var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change';
 
 var state = {
-	account: null
+	error: null,
+	accountSelected: false
 };
 
 var actionHandlerMap = {};
-actionHandlerMap[accountConstants.FETCHING_ACCOUNT] = function (action) {
-	store.emitChange();
-};
-
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
-	state.account = action.account;
+	state.accountSelected = true;
 	store.emitChange();
 };
-
+actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
+	state.error = action.error;
+	store.emitChange();
+};
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
-	//
+	state.error = action.error;
+	store.emitChange();
 };
 
 var store = merge(EventEmitter.prototype, {
@@ -36,8 +37,8 @@ var store = merge(EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
 
-	getAccount: utils.getWith(state, 'account'),
-	getAccountError: utils.getWith(state, 'error'),
+	getError: utils.getWith(state, 'error'),
+	getAccountSelected: utils.getWith(state, 'accountSelected'),
 
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction

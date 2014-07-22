@@ -39,11 +39,11 @@ var accountSearchResults = React.createClass({
 			);
 		});
 
-		// todo - finish this up
+		// todo - create a style for the sort arrows etc
 		var cssClasses = {
-			name: '',
-			domainName:'',
-			owner: ''
+			name: null,
+			domainName: null,
+			owner: null
 		};
 		var sortBy = this.state.sortBy;
 		if(sortBy.field)
@@ -51,6 +51,7 @@ var accountSearchResults = React.createClass({
 
 		return (
 			<div>
+				<h3>Click a row to edit an account</h3>
 				<table className="table table-hover">
 					<thead>
 						<tr>

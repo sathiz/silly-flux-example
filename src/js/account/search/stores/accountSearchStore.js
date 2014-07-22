@@ -11,7 +11,7 @@ var state = {
 	lastSearch: null,
 	searchResults: [],
 	sort: {field: null, asc: true},
-	error: null
+	accountSelected: false
 };
 
 function sortSearchResults(field) {
@@ -28,6 +28,31 @@ function sortSearchResults(field) {
 	state.searchResults = _.sortBy(state.searchResults, state.sort.field);
 }
 
+var actionHandlerMap = {};
+actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
+	state.lastSearch = action.search;
+	store.emitChange();
+};
+
+actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
+	state.searchResults = action.results;
+	store.emitChange();
+};
+
+actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
+	//
+};
+
+actionHandlerMap[accountConstants.SORT_SEARCH_RESULTS] = function (action) {
+	store.sortSearchResults(action.field);
+	store.emitChange();
+};
+
+actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
+	state.accountSelected = true;
+	store.emitChange();
+};
+
 var store = merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
@@ -39,35 +64,13 @@ var store = merge(EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
 
-	getLastSearch: utils.getWith('lastSearch')(state),
-	getSearchResults: utils.getWith('searchResults')(state),
-	getSearchError: utils.getWith('error')(state),
-	getSearchSort:  utils.getWith('sort')(state),
+	getLastSearch: utils.getWith(state, 'lastSearch'),
+	getSearchResults: utils.getWith(state, 'searchResults'),
+	getSearchSort:  utils.getWith(state, 'sort'),
+	getAccountSelected:  utils.getWith(state, 'accountSelected'),
 	sortSearchResults: sortSearchResults,
 
 	onDispatchedAction: appDispatcher.register(function (payload) {
-		var actionHandlerMap = {};
-		actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
-			state.lastSearch = action.search;
-			state.error = null;
-			store.emitChange();
-		};
-
-		actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
-			state.searchResults = action.results;
-			store.emitChange();
-		};
-
-		actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
-			state.error = action.error;
-			store.emitChange();
-		};
-
-		actionHandlerMap[accountConstants.SORT_SEARCH_RESULTS] = function (action) {
-			store.sortSearchResults(action.field);
-			store.emitChange();
-		};
-
 		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
 		if (actionHandlerMap[action.actionType])
 			actionHandlerMap[action.actionType](action);

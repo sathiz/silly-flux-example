@@ -2,12 +2,11 @@
 var React = require('react');
 var accountSearchForm = require('./accountSearchForm');
 var accountSearchResults = require('./accountSearchResults');
-var accountSearchStore = require('../stores/accountSearchStore');
-var errorView = require('../../shared/components/errorView');
+var store = require('../stores/accountSearchStore');
 
 function getStateFromStore() {
 	return {
-		error: accountSearchStore.getSearchError()
+		accountSelected: store.getAccountSelected()
 	};
 }
 
@@ -16,20 +15,19 @@ var accountSearch = React.createClass({
 		return getStateFromStore();
 	},
 	componentWillMount: function () {
-		accountSearchStore.addChangeListener(this.onStoreChange);
+		store.addChangeListener(this.onStoreChange);
 	},
 	componentWillUnmount: function () {
-		accountSearchStore.removeChangeListener(this.onStoreChange);
+		store.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
 		this.setState(getStateFromStore());
 	},
 	render: function () {
 		return (
-			<div className="col-sm-8">
+			<div className={this.state.accountSelected ? "col-sm-7" : "col-sm-12"}>
 				<h1>Search Accounts</h1>
 				<accountSearchForm />
-				<errorView error={this.state.error} />
 				<accountSearchResults />
 			</div>
 		);
