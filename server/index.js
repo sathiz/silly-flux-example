@@ -37,7 +37,14 @@ server.route({
 server.route({
 	method: 'GET',
 	path: '/api/account/{accountId}',
-	handler: require('./handlers/getAccountDetails')
+	handler: require('./handlers/getAccountDetails'),
+	config: {
+		validate: {
+			params: {
+				accountId: Joi.number().required()
+			}
+		}
+	}
 });
 
 server.pack.register(Good, function (err) {

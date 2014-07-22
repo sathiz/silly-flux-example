@@ -1,8 +1,10 @@
 module.exports = function (request, reply) {
+	var accountId = request.params.accountId;
+
 	reply({
-		id: 10000,
-		name: 'Account 10000',
-		domainName: 'account10000.mindflash.com',
-		owner: 'owner@domain10000.com'
+		id: accountId,
+		name: 'Account ' + accountId,
+		domainName: 'account' + accountId + '.mindflash.com',
+		owner: 'owner@domain' + accountId + '.com'
 	});
 };

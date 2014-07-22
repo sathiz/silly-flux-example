@@ -1,3 +1,4 @@
+var utils = require('../../shared/utils/utils');
 var appDispatcher = require('../../shared/dispatchers/accountDispatcher');
 var accountConstants = require('../../shared/constants/accountConstants');
 var merge = require('react/lib/merge');
@@ -6,15 +7,28 @@ var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = 'change';
 
-// search
-var accountSearch = {
+var state = {
 	lastSearch: null,
 	searchResults: [],
 	sort: {field: null, asc: true},
 	error: null
 };
 
-var accountSearchStore = merge(EventEmitter.prototype, {
+function sortSearchResults(field) {
+	if(!state.searchResults.length) return;
+
+	// reversing existing sort
+	if (state.sort.field === field) {
+		state.sort.asc = !state.sort.asc;
+		state.searchResults = state.searchResults.reverse();
+		return;
+	}
+
+	state.sort = {field: field, asc: true};
+	state.searchResults = _.sortBy(state.searchResults, state.sort.field);
+}
+
+var store = merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -24,54 +38,34 @@ var accountSearchStore = merge(EventEmitter.prototype, {
 	removeChangeListener: function (listener) {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
-	getLastSearch: function() {
-		return accountSearch.lastSearch;
-	},
-	getSearchResults: function() {
-		return accountSearch.searchResults;
-	},
-	getSearchError: function() {
-		return accountSearch.error;
-	},
-	getSearchSort: function() {
-		return accountSearch.sort;
-	},
-	sortSearchResults: function(field) {
-		if(!accountSearch.searchResults.length) return;
 
-		// reversing existing sort
-		if (accountSearch.sort.field === field) {
-			accountSearch.sort.asc = !accountSearch.sort.asc;
-			accountSearch.searchResults = accountSearch.searchResults.reverse();
-			return;
-		}
+	getLastSearch: utils.getWith('lastSearch')(state),
+	getSearchResults: utils.getWith('searchResults')(state),
+	getSearchError: utils.getWith('error')(state),
+	getSearchSort:  utils.getWith('sort')(state),
+	sortSearchResults: sortSearchResults,
 
-		accountSearch.sort = {field: field, asc: true};
-		accountSearch.searchResults = _.sortBy(accountSearch.searchResults, accountSearch.sort.field);
-	},
 	onDispatchedAction: appDispatcher.register(function (payload) {
-		console.log('accountSearchStore.onDispatchedAction, payload:', payload);
-
 		var actionHandlerMap = {};
-		actionHandlerMap[accountConstants.SEARCH_ACCOUNTS] = function (action) {
-			accountSearch.lastSearch = action.search;
-			accountSearch.error = null;
-			accountSearchStore.emitChange();
+		actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
+			state.lastSearch = action.search;
+			state.error = null;
+			store.emitChange();
 		};
 
-		actionHandlerMap[accountConstants.ACCOUNT_SEARCH_RESULTS_OK] = function (action) {
-			accountSearch.searchResults = action.results;
-			accountSearchStore.emitChange();
+		actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
+			state.searchResults = action.results;
+			store.emitChange();
 		};
 
-		actionHandlerMap[accountConstants.ACCOUNT_SEARCH_RESULTS_ERROR] = function (action) {
-			accountSearch.error = action.error;
-			accountSearchStore.emitChange();
+		actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
+			state.error = action.error;
+			store.emitChange();
 		};
 
 		actionHandlerMap[accountConstants.SORT_SEARCH_RESULTS] = function (action) {
-			accountSearchStore.sortSearchResults(action.field);
-			accountSearchStore.emitChange();
+			store.sortSearchResults(action.field);
+			store.emitChange();
 		};
 
 		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
@@ -82,4 +76,4 @@ var accountSearchStore = merge(EventEmitter.prototype, {
 	})
 });
 
-module.exports = accountSearchStore;
+module.exports = store;
