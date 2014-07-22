@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountSearchStore = require('../../shared/stores/accountStore');
+var accountSearchStore = require('../stores/accountSearchStore');
 var accountSearchActions = require('../actions/accountSearchActions');
 var accountSearchResult = require('./accountSearchResult');
 

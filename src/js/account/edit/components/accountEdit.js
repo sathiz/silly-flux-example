@@ -1,12 +1,12 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountStore = require('../../shared/stores/accountStore');
+var accountEditStore = require('../stores/accountEditStore');
 var errorView = require('../../shared/components/errorView');
 
 function getStateFromStore() {
 	return {
-		error: accountStore.getAccountError(),
-		account: accountStore.getAccount()
+		error: accountEditStore.getAccountError(),
+		account: accountEditStore.getAccount()
 	};
 }
 
@@ -15,10 +15,10 @@ var accountSearch = React.createClass({
 		return getStateFromStore();
 	},
 	componentWillMount: function () {
-		accountStore.addChangeListener(this.onStoreChange);
+		accountEditStore.addChangeListener(this.onStoreChange);
 	},
 	componentWillUnmount: function () {
-		accountStore.removeChangeListener(this.onStoreChange);
+		accountEditStore.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
 		this.setState(getStateFromStore());

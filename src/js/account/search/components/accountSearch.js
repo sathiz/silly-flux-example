@@ -2,7 +2,7 @@
 var React = require('react');
 var accountSearchForm = require('./accountSearchForm');
 var accountSearchResults = require('./accountSearchResults');
-var accountSearchStore = require('../../shared/stores/accountStore');
+var accountSearchStore = require('../stores/accountSearchStore');
 var errorView = require('../../shared/components/errorView');
 
 function getStateFromStore() {

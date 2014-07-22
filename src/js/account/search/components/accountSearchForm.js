@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountStore = require('../../shared/stores/accountStore');
+var accountSearchStore = require('../stores/accountSearchStore');
 var accountSearchActions = require('../actions/accountSearchActions');
 
 function getLastSearch() {
-	return { search: accountStore.getLastSearch() };
+	return { search: accountSearchStore.getLastSearch() };
 }
 
 var accountSearch = React.createClass({
@@ -12,10 +12,10 @@ var accountSearch = React.createClass({
 		return getLastSearch();
 	},
 	componentWillMount: function () {
-		accountStore.addChangeListener(this.onStoreChange);
+		accountSearchStore.addChangeListener(this.onStoreChange);
 	},
 	componentWillUnmount: function () {
-		accountStore.removeChangeListener(this.onStoreChange);
+		accountSearchStore.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
 		this.setState(getLastSearch());
