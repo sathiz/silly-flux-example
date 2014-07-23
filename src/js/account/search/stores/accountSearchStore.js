@@ -7,34 +7,27 @@ var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = 'change';
 
-var state = {
-	lastSearch: null,
-	searchResults: [],
-	sort: {field: null, asc: true},
-	accountSelected: false
-};
-
 function sortSearchResults(field) {
-	if(!state.searchResults.length) return;
+	if(!store.searchResults.length) return;
 
 	// reversing existing sort
-	if (state.sort.field === field) {
-		state.sort.asc = !state.sort.asc;
-		state.searchResults = state.searchResults.reverse();
+	if (store.sort.field === field) {
+		store.sort.asc = !store.sort.asc;
+		store.searchResults = store.searchResults.reverse();
 		return;
 	}
 
-	state.sort = {field: field, asc: true};
-	state.searchResults = _.sortBy(state.searchResults, state.sort.field);
+	store.sort = {field: field, asc: true};
+	store.searchResults = _.sortBy(store.searchResults, store.sort.field);
 }
 
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
-	state.lastSearch = action.search;
+	store.lastSearch = action.search;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
-	state.searchResults = action.results;
+	store.searchResults = action.results;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
@@ -45,20 +38,15 @@ actionHandlerMap[accountConstants.SORT_SEARCH_RESULTS] = function (action) {
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
-	state.accountSelected = true;
+	store.accountSelected = true;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
-	state.accountSelected = false;
+	store.accountSelected = false;
 	store.emitChange();
 };
 
-var mapped = _.reduce(state, function(result, value, key) {
-	result[key] = function() { return state[key]; };
-	return result;
-}, {});
-
-var store = merge(mapped, merge(EventEmitter.prototype, {
+var store = merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -68,7 +56,11 @@ var store = merge(mapped, merge(EventEmitter.prototype, {
 	removeChangeListener: function (listener) {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
-
+	
+	lastSearch: null,
+	searchResults: [],
+	sort: {field: null, asc: true},
+	accountSelected: false,
 	sortSearchResults: sortSearchResults,
 
 	onDispatchedAction: appDispatcher.register(function (payload) {
@@ -78,7 +70,7 @@ var store = merge(mapped, merge(EventEmitter.prototype, {
 
 		return true;
 	})
-}));
+});
 
 console.log(store);
 

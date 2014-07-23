@@ -7,32 +7,23 @@ var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = 'change';
 
-var state = {
-	account: null
-};
-
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.FETCHING_ACCOUNT] = function (action) {
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
-	state.account = action.account;
+	store.account = action.account;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
 	//
 };
 actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
-	state.account = null;
+	store.account = null;
 	store.emitChange();
 };
 
-var mapped = _.reduce(state, function(result, value, key) {
-	result[key] = function() { return state[key]; };
-	return result;
-}, {});
-
-var store = merge(mapped, merge(EventEmitter.prototype, {
+var store = merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -42,7 +33,7 @@ var store = merge(mapped, merge(EventEmitter.prototype, {
 	removeChangeListener: function (listener) {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
-
+	account: null,
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
 		if (actionHandlerMap[action.actionType])
@@ -50,6 +41,6 @@ var store = merge(mapped, merge(EventEmitter.prototype, {
 
 		return true;
 	})
-}));
+});
 
 module.exports = store;

@@ -6,7 +6,7 @@ var accountEdit = require('../../edit/components/accountEdit');
 
 function getStateFromStore() {
 	return {
-		accountSelected: store.accountSelected()
+		accountSelected: store.accountSelected
 	};
 }
 
