@@ -6,7 +6,7 @@ var store = require('../stores/accountSearchStore');
 
 function getStateFromStore() {
 	return {
-		accountSelected: store.getAccountSelected()
+		accountSelected: store.accountSelected()
 	};
 }
 

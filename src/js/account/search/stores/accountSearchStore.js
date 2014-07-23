@@ -53,7 +53,12 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.emitChange();
 };
 
-var store = merge(EventEmitter.prototype, {
+var mapped = _.reduce(state, function(result, value, key) {
+	result[key] = function() { return state[key]; };
+	return result;
+}, {});
+
+var store = merge(mapped, merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -64,10 +69,6 @@ var store = merge(EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
 
-	getLastSearch: utils.getWith(state, 'lastSearch'),
-	getSearchResults: utils.getWith(state, 'searchResults'),
-	getSearchSort:  utils.getWith(state, 'sort'),
-	getAccountSelected:  utils.getWith(state, 'accountSelected'),
 	sortSearchResults: sortSearchResults,
 
 	onDispatchedAction: appDispatcher.register(function (payload) {
@@ -77,6 +78,8 @@ var store = merge(EventEmitter.prototype, {
 
 		return true;
 	})
-});
+}));
+
+console.log(store);
 
 module.exports = store;

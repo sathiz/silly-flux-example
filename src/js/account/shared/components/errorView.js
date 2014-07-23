@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-var searchResult = React.createClass({
+var cls = React.createClass({
 	render: function () {
 		var error = this.props.error;
 		if(!error) return (<span></span>);
@@ -11,4 +11,4 @@ var searchResult = React.createClass({
 		);
 	}
 });
-module.exports = searchResult;
+module.exports = cls;

@@ -5,7 +5,7 @@ var actions = require('../actions/accountEditActions');
 
 function getStateFromStore() {
 	return {
-		account: store.getAccount()
+		account: store.account()
 	};
 }
 

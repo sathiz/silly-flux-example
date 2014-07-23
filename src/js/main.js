@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
-var Account = require('./account/shared/components/accountMain');
+var accountMain = require('./account/shared/components/accountMain');
 var React = require('react');
 
 React.renderComponent(
-	<Account />,
+	<accountMain />,
 	document.getElementById('main')
 );

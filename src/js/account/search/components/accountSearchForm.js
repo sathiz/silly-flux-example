@@ -4,7 +4,7 @@ var store = require('../stores/accountSearchStore');
 var actions = require('../actions/accountSearchActions');
 
 function getLastSearch() {
-	return { search: accountSearchStore.getLastSearch() };
+	return { search: store.lastSearch() };
 }
 
 var cls = React.createClass({

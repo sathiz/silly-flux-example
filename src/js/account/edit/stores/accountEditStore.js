@@ -27,7 +27,12 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.emitChange();
 };
 
-var store = merge(EventEmitter.prototype, {
+var mapped = _.reduce(state, function(result, value, key) {
+	result[key] = function() { return state[key]; };
+	return result;
+}, {});
+
+var store = merge(mapped, merge(EventEmitter.prototype, {
 	emitChange: function () {
 		this.emit(CHANGE_EVENT);
 	},
@@ -38,9 +43,6 @@ var store = merge(EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
 
-	getAccount: utils.getWith(state, 'account'),
-	getAccountError: utils.getWith(state, 'error'),
-
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
 		if (actionHandlerMap[action.actionType])
@@ -48,6 +50,6 @@ var store = merge(EventEmitter.prototype, {
 
 		return true;
 	})
-});
+}));
 
 module.exports = store;

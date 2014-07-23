@@ -6,8 +6,8 @@ var accountSearchResult = require('./accountSearchResult');
 
 function getStateFromStore() {
 	return {
-		results: store.getSearchResults(),
-		sortBy: store.getSearchSort()
+		results: store.searchResults(),
+		sortBy: store.sort()
 	};
 }
 
