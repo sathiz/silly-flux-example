@@ -64,14 +64,13 @@ var store = merge(EventEmitter.prototype, {
 	sortSearchResults: sortSearchResults,
 
 	onDispatchedAction: appDispatcher.register(function (payload) {
-		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
+		var action = payload.action;
+		console.log('accountSearchStore.onDispatchedAction, action:', action);
 		if (actionHandlerMap[action.actionType])
 			actionHandlerMap[action.actionType](action);
 
 		return true;
 	})
 });
-
-console.log(store);
 
 module.exports = store;

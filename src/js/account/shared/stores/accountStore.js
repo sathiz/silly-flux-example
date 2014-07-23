@@ -40,7 +40,8 @@ var store = merge(EventEmitter.prototype, {
 	accountSelected: false,
 
 	onDispatchedAction: appDispatcher.register(function (payload) {
-		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
+		var action = payload.action;
+		console.log('accountStore.onDispatchedAction, action:', action);
 		if (actionHandlerMap[action.actionType])
 			actionHandlerMap[action.actionType](action);
 

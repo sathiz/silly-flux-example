@@ -35,7 +35,8 @@ var store = merge(EventEmitter.prototype, {
 	},
 	account: null,
 	onDispatchedAction: appDispatcher.register(function (payload) {
-		var action = payload.action; // this is our action from appDispatcher.handleViewAction / handleServerAction
+		var action = payload.action;
+		console.log('accountEditStore.onDispatchedAction, action:', action);
 		if (actionHandlerMap[action.actionType])
 			actionHandlerMap[action.actionType](action);
 

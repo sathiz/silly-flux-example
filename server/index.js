@@ -9,14 +9,14 @@ var server = new Hapi.Server('localhost', 8080);
 server.route({
 	method: 'GET',
 	path: '/{path*}',
-	handler: { directory: { path: path.join(__dirname, '/../client'), listing: false, index: true } }
+	handler: { directory: { path: path.join(__dirname, '/../dist'), listing: false, index: true } }
 });
 
 // favicon
 server.route({
 	method: 'GET',
 	path: '/favicon.ico',
-	handler: { file: path.join(__dirname, '/../client/images/favicon.ico') },
+	handler: { file: path.join(__dirname, '/../dist/images/favicon.ico') },
 	config: { cache: { expiresIn: 30 * 86400000 } } // 30 days
 });
 
