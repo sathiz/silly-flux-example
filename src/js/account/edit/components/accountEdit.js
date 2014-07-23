@@ -9,7 +9,7 @@ function getStateFromStore() {
 	};
 }
 
-var accountSearch = React.createClass({
+var cls = React.createClass({
 	getInitialState: function () {
 		return getStateFromStore();
 	},
@@ -29,10 +29,10 @@ var accountSearch = React.createClass({
 		return  (
 			<div className="col-sm-5">
 				<h1>Edit</h1>
-				<pre>{JSON.stringify(this.state.account)}</pre>
+				<pre>Debug: {JSON.stringify(this.state.account)}</pre>
 				<button type="button" className="btn" onClick={this.abandonEdit}>Cancel</button>
 			</div>
 		);
 	}
 });
-module.exports = accountSearch;
+module.exports = cls;

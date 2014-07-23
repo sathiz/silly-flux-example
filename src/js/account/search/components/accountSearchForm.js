@@ -1,21 +1,21 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountSearchStore = require('../stores/accountSearchStore');
-var accountSearchActions = require('../actions/accountSearchActions');
+var store = require('../stores/accountSearchStore');
+var actions = require('../actions/accountSearchActions');
 
 function getLastSearch() {
 	return { search: accountSearchStore.getLastSearch() };
 }
 
-var accountSearch = React.createClass({
+var cls = React.createClass({
 	getInitialState: function () {
 		return getLastSearch();
 	},
 	componentWillMount: function () {
-		accountSearchStore.addChangeListener(this.onStoreChange);
+		store.addChangeListener(this.onStoreChange);
 	},
 	componentWillUnmount: function () {
-		accountSearchStore.removeChangeListener(this.onStoreChange);
+		store.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
 		this.setState(getLastSearch());
@@ -31,7 +31,7 @@ var accountSearch = React.createClass({
 			this.search();
 	},
 	search: function () {
-		accountSearchActions.searchAccounts(this.state.search);
+		actions.searchAccounts(this.state.search);
 	},
 	render: function () {
 		return (
@@ -46,4 +46,4 @@ var accountSearch = React.createClass({
 		);
 	}
 });
-module.exports = accountSearch;
+module.exports = cls;

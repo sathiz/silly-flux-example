@@ -1,13 +1,13 @@
 /** @jsx React.DOM */
 var React = require('react');
-var accountSearchStore = require('../stores/accountSearchStore');
-var accountSearchActions = require('../actions/accountSearchActions');
+var store = require('../stores/accountSearchStore');
+var actions = require('../actions/accountSearchActions');
 var accountSearchResult = require('./accountSearchResult');
 
 function getStateFromStore() {
 	return {
-		results: accountSearchStore.getSearchResults(),
-		sortBy: accountSearchStore.getSearchSort()
+		results: store.getSearchResults(),
+		sortBy: store.getSearchSort()
 	};
 }
 
@@ -16,17 +16,17 @@ var accountSearchResults = React.createClass({
 		return getStateFromStore();
 	},
 	componentWillMount: function () {
-		accountSearchStore.addChangeListener(this.onStoreChange);
+		store.addChangeListener(this.onStoreChange);
 	},
 	componentWillUnmount: function () {
-		accountSearchStore.removeChangeListener(this.onStoreChange);
+		store.removeChangeListener(this.onStoreChange);
 	},
 	onStoreChange: function () {
 		this.setState(getStateFromStore());
 	},
 	sortBy: function(field) {
 		return function() {
-			accountSearchActions.sortSearchResults(field);
+			actions.sortSearchResults(field);
 		};
 	},
 	render: function () {
