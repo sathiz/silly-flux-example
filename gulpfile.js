@@ -9,7 +9,7 @@ var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
 
 var scriptsDir = './src/js';
-var buildDir = './client/js';
+var buildDir = './dist/js';
 
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
@@ -51,10 +51,10 @@ function buildScript(params) {
 
 gulp.task('copy', function () {
 	gulp.src('src/**/*.html', {base: './src'})
-		.pipe(gulp.dest('./client/'));
+		.pipe(gulp.dest('./dist/'));
 
 	gulp.src('src/images/**/*', {base: './src/images'})
-		.pipe(gulp.dest('./client/images/'));
+		.pipe(gulp.dest('./dist/images/'));
 });
 
 gulp.task('build', buildScript({file: 'main.js', watch: false}));
