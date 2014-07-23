@@ -15,14 +15,16 @@ var actionHandlerMap = {};
 actionHandlerMap[accountConstants.FETCHING_ACCOUNT] = function (action) {
 	store.emitChange();
 };
-
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
 	state.account = action.account;
 	store.emitChange();
 };
-
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
 	//
+};
+actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
+	state.account = null;
+	store.emitChange();
 };
 
 var store = merge(EventEmitter.prototype, {

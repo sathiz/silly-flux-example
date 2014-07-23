@@ -25,6 +25,10 @@ actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
 	state.error = action.error;
 	store.emitChange();
 };
+actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
+	state.accountSelected = false;
+	store.emitChange();
+};
 
 var store = merge(EventEmitter.prototype, {
 	emitChange: function () {

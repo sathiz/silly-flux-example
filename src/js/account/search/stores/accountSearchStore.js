@@ -33,23 +33,23 @@ actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
 	state.lastSearch = action.search;
 	store.emitChange();
 };
-
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
 	state.searchResults = action.results;
 	store.emitChange();
 };
-
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
 	//
 };
-
 actionHandlerMap[accountConstants.SORT_SEARCH_RESULTS] = function (action) {
 	store.sortSearchResults(action.field);
 	store.emitChange();
 };
-
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
 	state.accountSelected = true;
+	store.emitChange();
+};
+actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
+	state.accountSelected = false;
 	store.emitChange();
 };
 
