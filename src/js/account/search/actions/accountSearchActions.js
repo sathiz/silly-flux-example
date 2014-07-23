@@ -30,7 +30,7 @@ var actions = {
 	requestAccount: function(accountId) {
 		accountDispatcher.handleViewAction({
 			actionType: accountConstants.FETCHING_ACCOUNT,
-			search: accountId
+			accountId: accountId
 		});
 		accountSearchServerCalls.getAccount(accountId).end(function(err, res) {
 			if(err || res.error) {

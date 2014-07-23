@@ -1,4 +1,3 @@
-var utils = require('../../shared/utils/utils');
 var appDispatcher = require('../../shared/dispatchers/accountDispatcher');
 var accountConstants = require('../../shared/constants/accountConstants');
 var merge = require('react/lib/merge');
@@ -9,7 +8,7 @@ var CHANGE_EVENT = 'change';
 
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.FETCHING_ACCOUNT] = function (action) {
-	store.emitChange();
+	//
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
 	store.account = action.account;

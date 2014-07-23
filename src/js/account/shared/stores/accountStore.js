@@ -1,4 +1,3 @@
-var utils = require('../utils/utils');
 var appDispatcher = require('../dispatchers/accountDispatcher');
 var accountConstants = require('../constants/accountConstants');
 var merge = require('react/lib/merge');
@@ -36,9 +35,10 @@ var store = merge(EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
 
+	statusMessage: null,
 	error: null,
 	accountSelected: false,
-
+	
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		var action = payload.action;
 		console.log('accountStore.onDispatchedAction, action:', action);

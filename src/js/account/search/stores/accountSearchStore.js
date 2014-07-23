@@ -1,4 +1,3 @@
-var utils = require('../../shared/utils/utils');
 var appDispatcher = require('../../shared/dispatchers/accountDispatcher');
 var accountConstants = require('../../shared/constants/accountConstants');
 var merge = require('react/lib/merge');
@@ -29,9 +28,6 @@ actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
 	store.searchResults = action.results;
 	store.emitChange();
-};
-actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
-	//
 };
 actionHandlerMap[accountConstants.SORT_SEARCH_RESULTS] = function (action) {
 	store.sortSearchResults(action.field);

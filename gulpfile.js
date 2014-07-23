@@ -14,7 +14,7 @@ var buildDir = './dist/js';
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
 	notify.onError({
-		title: "Compile Error",
+		title: "You FAIL! Error",
 		message: "<%= error.message %>"
 	}).apply(this, args);
 	this.emit('end'); // Keep gulp from hanging on this task
@@ -36,7 +36,7 @@ function buildScript(params) {
 			var stream = bundler.bundle({debug: true});
 			return stream.on('error', handleErrors)
 				.pipe(source(file))
-				//.pipe(streamify(uglify())) // TODO - for prod
+				//.pipe(streamify(uglify())) // TODO - for prod - figure out sourcemaps
 				.pipe(gulp.dest(buildDir + '/'));
 		}
 
@@ -52,7 +52,6 @@ function buildScript(params) {
 gulp.task('copy', function () {
 	gulp.src('src/**/*.html', {base: './src'})
 		.pipe(gulp.dest('./dist/'));
-
 	gulp.src('src/images/**/*', {base: './src/images'})
 		.pipe(gulp.dest('./dist/images/'));
 });
