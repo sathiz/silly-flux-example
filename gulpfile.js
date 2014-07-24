@@ -14,8 +14,8 @@ var buildDir = './dist/js';
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
 	notify.onError({
-		title: "You FAIL! Error",
-		message: "<%= error.message %>"
+		title: "Error",
+		message: "<%= errors.imessage %>"
 	}).apply(this, args);
 	this.emit('end'); // Keep gulp from hanging on this task
 }
