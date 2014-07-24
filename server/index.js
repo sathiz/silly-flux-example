@@ -24,7 +24,7 @@ server.route({
 server.route({
 	method: 'GET',
 	path: '/api/account',
-	handler: require('./handlers/getAccounts'),
+	handler: require('./handlers/searchAccounts'),
 	config: {
 		validate: {
 			query: {
