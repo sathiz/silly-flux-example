@@ -63,3 +63,4 @@ gulp.task('build', buildScript({file: 'main.js', watch: false}));
 gulp.task('watch', buildScript({file: 'main.js', watch: true}));
 
 gulp.task('default', ['copy', 'watch']);
+gulp.task('deploy', ['copy', 'build']);
