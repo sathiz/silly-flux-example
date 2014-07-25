@@ -1,5 +1,7 @@
 silly-flux-example
 ==================
+> A silly account editor prototype for my awesome [day job](http://www.mindflash.com).
+
 Install dependencies:
 ```shell
 npm i
