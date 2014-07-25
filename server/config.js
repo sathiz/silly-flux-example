@@ -1,4 +1,5 @@
 module.exports = {
+	port: 8080,
 	mysql: {
 		host: 'vm',
 		port: 3306,
