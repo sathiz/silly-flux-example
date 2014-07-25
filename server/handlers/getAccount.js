@@ -7,7 +7,7 @@ module.exports = function (request, reply) {
 		id: accountId,
 		name: 'Account ' + accountId,
 		domainName: 'account' + accountId + '.mindflash.com',
-		owner: 'owner@domain' + accountId + '.com',
+		ownerId: 4,
 		teamMembers: _.map(_.range(0, 10), function (i) {
 			return {
 				id: i,

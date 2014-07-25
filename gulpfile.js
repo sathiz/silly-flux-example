@@ -15,7 +15,7 @@ function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
 	notify.onError({
 		title: "Error",
-		message: "<%= errors.imessage %>"
+		message: "<%= error.message %>"
 	}).apply(this, args);
 	this.emit('end'); // Keep gulp from hanging on this task
 }

@@ -5,7 +5,7 @@ var api = {
 		return superagent
 			.post('/api/account/' + account.id)
 			.send({
-				ownerEmail: account.ownerEmail
+				ownerId: account.ownerId
 			})
 			.set('Accept', 'application/json');
 	}

@@ -3,7 +3,7 @@ var getAccount = require('./getAccount');
 
 module.exports = function (request, reply) {
 	var accountId = request.params.accountId;
-	var ownerEmail = request.payload.ownerEmail;
+	var ownerId = request.payload.ownerId;
 
 	// save etc
 	return getAccount(request, reply);

@@ -51,7 +51,7 @@ var accountSearchResults = React.createClass({
 
 		return (
 			<div>
-				<h3>Click a row to edit an account</h3>
+				<h4>Click a row to edit an account</h4>
 				<table className="table table-hover">
 					<thead>
 						<tr>

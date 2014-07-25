@@ -27,14 +27,42 @@ var cls = React.createClass({
 	},
 	saveEdit: function() {
 		actions.saveEdit(this.state.account);
+		return false;
 	},
-	render: function () {
+	onChange: function(event) {
+		this.state.account.ownerId = event.target.value;
+		this.setState({account: this.state.account});
+	},
+	render: function() {
+		var account = this.state.account;
+		if(!account)
+			return (<span></span>);
+
+		var possibleOwners = account.teamMembers.map(function (user) {
+			var selected = user.email == account.ownerEmail ? 'selected' : '';
+			return (
+				<option key={user.id} value={user.id}>{user.name} &lt;{user.email}&gt;</option>
+			);
+		});
+
+		var unchanged = account.ownerId == account.lastOwnerId;
+
 		return  (
 			<div className="col-sm-5">
-				<h1>Edit</h1>
-				<pre>TODO - make a silly form here, Account: {JSON.stringify(this.state.account)}</pre>
-				<button type="button" className="btn" onClick={this.abandonEdit}>Close</button>
-				<button type="button" className="btn btn-primary" onClick={this.saveEdit}>Save</button>
+				<h2>Change Owner</h2>
+				<p>Account: {account.domainName} ({account.name})</p>
+				<form className="form-vertical" onSubmit={this.saveEdit}>
+					<div className="form-group">
+						<label className="sr-only" htmlFor="selectOwner">Owner</label>
+						<select name="selectOwner" value={account.ownerId} onChange={this.onChange}>
+						{possibleOwners}
+						</select>
+					</div>
+					<div className="form-group">
+						<button type="button" className="btn" onClick={this.abandonEdit}>Close</button>
+						<button type="submit" className="btn btn-primary" disabled={unchanged}>Save</button>
+					</div>
+				</form>
 			</div>
 		);
 	}

@@ -7,15 +7,18 @@ var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change';
 
 var actionHandlerMap = {};
-actionHandlerMap[accountConstants.FETCHING_ACCOUNT] = function (action) {
-	//
+actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
+	store.account = action.account;
+	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
+	action.account.lastOwnerId = action.account.ownerId;
 	store.account = action.account;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
-	//
+	store.account = null;
+	store.emitChange();
 };
 actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.account = null;

@@ -22,7 +22,6 @@ var cls = React.createClass({
 	},
 	onChange: function (event) {
 		if (!event) return;
-		// update search state as the input changes
 		this.setState({ search: event.target.value });
 	},
 	onKeyDown: function (event) {
@@ -32,17 +31,18 @@ var cls = React.createClass({
 	},
 	search: function () {
 		actions.searchAccounts(this.state.search);
+		return false;
 	},
 	render: function () {
 		return (
-			<div className="form-inline">
+			<form className="form-inline" onSubmit={this.search}>
 				<div className="form-group">
 					<label className="sr-only" htmlFor="inputSearch">Search</label>
 					<input type="text" className="form-control" id="inputSearch" placeholder="Search" value={this.state.search}
 						onChange={this.onChange} onKeyDown={this.onKeyDown} autoFocus={true} />
 				</div>
-				<button className="btn btn-primary" type="submit" onClick={this.search}>Search</button>
-			</div>
+				<button className="btn btn-primary" type="submit">Search</button>
+			</form>
 		);
 	}
 });

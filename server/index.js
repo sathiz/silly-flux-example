@@ -57,7 +57,7 @@ server.route({
 				accountId: Joi.number().required()
 			},
 			payload: {
-				ownerEmail: Joi.string().email().required()
+				ownerId: Joi.number().required()
 			}
 		}
 	}

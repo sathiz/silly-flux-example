@@ -26,7 +26,7 @@ var accountSearch = React.createClass({
 	render: function () {
 		return (
 			<div className={this.state.accountSelected ? "col-sm-7" : "col-sm-12"}>
-				<h1>Search Accounts</h1>
+				<h2>Search Accounts</h2>
 				<accountSearchForm />
 				<accountSearchResults />
 			</div>

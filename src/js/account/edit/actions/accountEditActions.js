@@ -10,7 +10,7 @@ var actions = {
 	},
 	saveEdit: function (account) {
 		accountDispatcher.handleViewAction({
-			actionType: accountConstants.SAVING_EDIT,
+			actionType: accountConstants.SAVING_ACCOUNT,
 			account: account
 		});
 		accountEditServerCalls.editAccount(account).end(function(err, res) {
