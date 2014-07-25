@@ -4,7 +4,7 @@ var Good = require('good');
 var Joi = require('joi');
 var config = require('./config');
 
-var server = new Hapi.Server('localhost', process.env.PORT || config.port);
+var server = new Hapi.Server('0.0.0.0', process.env.PORT || config.port);
 
 // static assets - we'd normally only serve index.html here and cache it for a long time
 server.route({
