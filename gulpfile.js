@@ -55,6 +55,8 @@ function buildScript(params) {
 gulp.task('copy', function () {
 	gulp.src('src/**/*.html', {base: './src'})
 		.pipe(gulp.dest('./dist/'));
+	gulp.src('src/css/**/*', {base: './src/css'})
+		.pipe(gulp.dest('./dist/css/'));
 	gulp.src('src/images/**/*', {base: './src/images'})
 		.pipe(gulp.dest('./dist/images/'));
 });

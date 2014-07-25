@@ -50,11 +50,12 @@ var accountSearchResults = React.createClass({
 			cssClasses[sortBy.field] = 'sort' + (sortBy.asc ? 'Asc' : 'Desc');
 
 		return (
-			<div>
+			<div className="table-responsive">
 				<h4>Click a row to edit an account</h4>
 				<table className="table table-hover">
 					<thead>
 						<tr>
+							<th onClick={this.sortBy('id')} className={cssClasses.name}>ID</th>
 							<th onClick={this.sortBy('name')} className={cssClasses.name}>Name</th>
 							<th onClick={this.sortBy('domainName')} className={cssClasses.domainName}>Domain</th>
 							<th onClick={this.sortBy('owner')} className={cssClasses.owner}>Owner</th>
