@@ -46,7 +46,8 @@ var cls = React.createClass({
 		});
 
 		// if nothing has changed or there's only 1 admin
-		var formDisabled = false;//account.ownerId == account.lastOwnerId || account.teamMembers.length === 1;
+		var formDisabled = account.ownerId == account.lastOwnerId;
+		var ownerSelectDisabled = account.teamMembers.length === 1;
 
 		return  (
 			<div className="col-sm-5">
@@ -55,7 +56,7 @@ var cls = React.createClass({
 				<form className="form-vertical" onSubmit={this.saveEdit}>
 					<div className="form-group">
 						<label className="sr-only" htmlFor="selectOwner">Owner</label>
-						<select name="selectOwner" value={account.ownerId} onChange={this.onChange} disabled={formDisabled}>
+						<select name="selectOwner" value={account.ownerId} onChange={this.onChange} disabled={ownerSelectDisabled}>
 						{possibleOwners}
 						</select>
 					</div>

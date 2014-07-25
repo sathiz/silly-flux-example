@@ -7,20 +7,26 @@ module.exports = function (request, reply) {
 	var accountId = request.params.accountId;
 
 	var sql = "SELECT \
-			a.id, \
-			a.name, \
-			d.FullName domainName, \
-			IFNULL(o.id, 0) ownerId, \
-			u.ID administratorId, \
-			u.Name administratorName, \
-			IFNULL(u.Email, u.Username) administratorEmail \
-		FROM account a \
-		JOIN domain d ON a.ID = d.accountId \
-		LEFT JOIN userrecord o ON a.OwnerEmail = o.Email \
-		JOIN userrecord u ON a.ID = u.AccountID \
-		WHERE d.RecordType = 145000100 /*Primary*/ \
-		AND u.Permissions = 169000400 /*Administrator*/ \
-		AND a.id = ?";
+		a.id, \
+		a.name, \
+		d.FullName domainName, \
+		IFNULL(o.id, 0) ownerId, \
+		u.ID administratorId, \
+		u.Name administratorName, \
+		IFNULL(u.Email, u.Username) administratorEmail \
+	FROM account a \
+	JOIN domain d ON a.ID = d.accountId \
+	JOIN userrecord u ON u.AccountID = a.id \
+	LEFT JOIN userrecord o ON o.accountId = a.id \
+		AND o.Email = a.OwnerEmail \
+		AND o.status = 109000200 /*Active*/ \
+		AND o.Deleted IS NULL \
+		AND o.permissions = 169000400 /*Administrator*/ \
+	WHERE d.RecordType = 145000100 /*Primary*/ \
+	AND u.Permissions = 169000400 /*Administrator*/ \
+	AND u.status = 109000200 /*Active*/ \
+	AND u.Deleted IS NULL \
+	AND a.id = ?";
 
 	var connection = mysql.createConnection(config.mysql);
 	connection.connect(function(err) {

@@ -9,6 +9,8 @@ var actions = {
 		});
 	},
 	saveEdit: function (account) {
+		account.ownerId = parseInt(account.ownerId);
+
 		accountDispatcher.handleViewAction({
 			actionType: accountConstants.SAVING_ACCOUNT,
 			account: account

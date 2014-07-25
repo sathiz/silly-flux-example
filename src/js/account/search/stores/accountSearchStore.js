@@ -41,9 +41,15 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.accountSelected = false;
 	store.emitChange();
 };
-actionHandlerMap[accountConstants.ACCOUNT_SAVE_OK] = function (action) {
-	_.each(store.searchResults, function(result) {
+// optimistic
+actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
+	var account = action.account;
+	_.each(store.searchResults, function(result, key) {
+		if(account.id != account.id) return;
 
+		var owner = _.find(account.teamMembers, {administratorId: account.ownerId});
+		if(owner)
+			store.searchResults[key].owner = owner.administratorName + ' <' + owner.administratorEmail + '>';
 	});
 	store.emitChange();
 };

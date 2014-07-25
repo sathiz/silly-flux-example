@@ -7,8 +7,10 @@ var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change';
 
 var actionHandlerMap = {};
+// optimistic
 actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
 	store.account = action.account;
+	store.account.lastOwnerId = store.account.ownerId;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {

@@ -8,26 +8,31 @@ module.exports = function (request, reply) {
 	if(~['null',''].indexOf(request.query.search))
 		search = '%';
 
-	var sql = "SELECT DISTINCT \
-			a.id, \
-			a.name, \
-			d.FullName domainName, \
-			IF(o.name IS NULL, a.ownerEmail, CONCAT(o.name, '<', a.ownerEmail, '>')) owner \
-		FROM account a \
-		JOIN domain d ON a.ID = d.accountId \
-		LEFT JOIN userrecord o ON a.OwnerEmail = o.Email \
+	var sql = "SELECT \
+		a.id, \
+		a.name, \
+		d.FullName domainName, \
+		o.id ownerId, \
+		IF(o.id IS NULL, a.ownerEmail, CONCAT(o.name, ' <', a.ownerEmail, '>')) `owner` \
+	FROM account a \
+	JOIN domain d ON d.accountId = a.id \
+	LEFT JOIN userrecord o ON o.AccountID = a.id \
+		AND o.Email = a.OwnerEmail \
+		AND o.status = 109000200 /*Active*/ \
+		AND o.Deleted IS NULL \
+		AND o.permissions = 169000400 /*Administrator*/ \
 		WHERE d.RecordType = 145000100 /*Primary*/ \
-		AND a.Status NOT IN ( \
-			127000500, /*Trial expired*/ \
-			127000200, /*NonPayment*/ \
-			127000400, /*AdministrativeDisableDEPRECIATED*/ \
-			127000700 /*Cancelled*/ \
-		) \
-		AND ( \
-			a.Name LIKE ? \
-			OR d.FullName LIKE ? \
-		) \
-		ORDER BY a.name";
+	AND a.Status NOT IN ( \
+		127000500, /*Trial expired*/ \
+		127000200, /*NonPayment*/ \
+		127000400, /*AdministrativeDisableDEPRECIATED*/ \
+		127000700 /*Cancelled*/ \
+	) \
+	AND ( \
+		a.Name LIKE ? \
+		OR d.FullName LIKE ? \
+	) \
+	ORDER BY a.name";
 
 	var connection = mysql.createConnection(config.mysql);
 	connection.connect(function(err) {
