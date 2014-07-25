@@ -33,11 +33,14 @@ function buildScript(params) {
 		bundler.transform(reactify);
 
 		function rebundle() {
-			var stream = bundler.bundle({debug: true});
-			return stream.on('error', handleErrors)
-				.pipe(source(file))
-				//.pipe(streamify(uglify())) // TODO - for prod - figure out sourcemaps
-				.pipe(gulp.dest(buildDir + '/'));
+			var stream = bundler.bundle({debug: watch})
+				.on('error', handleErrors)
+				.pipe(source(file));
+
+			if(!watch)
+				stream.pipe(streamify(uglify()));
+
+			return stream.pipe(gulp.dest(buildDir + '/'));
 		}
 
 		bundler.on('update', function () {
@@ -57,5 +60,6 @@ gulp.task('copy', function () {
 });
 
 gulp.task('build', buildScript({file: 'main.js', watch: false}));
+gulp.task('watch', buildScript({file: 'main.js', watch: true}));
 
-gulp.task('default', ['build', 'copy'], buildScript({file: 'main.js', watch: true}));
+gulp.task('default', ['copy', 'watch']);
