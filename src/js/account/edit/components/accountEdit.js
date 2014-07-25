@@ -25,12 +25,16 @@ var cls = React.createClass({
 	abandonEdit: function() {
 		actions.abandonEdit();
 	},
+	saveEdit: function() {
+		actions.saveEdit(this.state.account);
+	},
 	render: function () {
 		return  (
 			<div className="col-sm-5">
 				<h1>Edit</h1>
-				<pre>Debug: {JSON.stringify(this.state.account)}</pre>
-				<button type="button" className="btn" onClick={this.abandonEdit}>Cancel</button>
+				<pre>TODO - make a silly form here, Account: {JSON.stringify(this.state.account)}</pre>
+				<button type="button" className="btn" onClick={this.abandonEdit}>Close</button>
+				<button type="button" className="btn btn-primary" onClick={this.saveEdit}>Save</button>
 			</div>
 		);
 	}

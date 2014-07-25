@@ -11,18 +11,18 @@ actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
 	store.accountSelected = true;
 	store.emitChange();
 };
-actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = function (action) {
-	store.error = action.error;
-	store.emitChange();
-};
-actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
-	store.error = action.error;
-	store.emitChange();
-};
 actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.accountSelected = false;
 	store.emitChange();
 };
+actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError;
+actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = handleError;
+actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = handleError;
+
+function handleError(action) {
+	store.error = action.error;
+	store.emitChange();
+}
 
 var store = merge(EventEmitter.prototype, {
 	emitChange: function () {

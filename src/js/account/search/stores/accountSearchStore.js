@@ -41,6 +41,12 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.accountSelected = false;
 	store.emitChange();
 };
+actionHandlerMap[accountConstants.ACCOUNT_SAVE_OK] = function (action) {
+	_.each(store.searchResults, function(result) {
+
+	});
+	store.emitChange();
+};
 
 var store = merge(EventEmitter.prototype, {
 	emitChange: function () {

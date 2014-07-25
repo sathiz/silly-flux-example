@@ -37,11 +37,27 @@ server.route({
 server.route({
 	method: 'GET',
 	path: '/api/account/{accountId}',
-	handler: require('./handlers/getAccountDetails'),
+	handler: require('./handlers/getAccount'),
 	config: {
 		validate: {
 			params: {
 				accountId: Joi.number().required()
+			}
+		}
+	}
+});
+
+server.route({
+	method: 'POST',
+	path: '/api/account/{accountId}',
+	handler: require('./handlers/saveAccount'),
+	config: {
+		validate: {
+			params: {
+				accountId: Joi.number().required()
+			},
+			payload: {
+				ownerEmail: Joi.string().email().required()
 			}
 		}
 	}
