@@ -17,12 +17,13 @@ var actions = {
 			if(err || res.error) {
 				return accountDispatcher.handleServerAction({
 					actionType: accountConstants.ACCOUNT_SAVE_ERROR,
-					error: err || res.body
+					account: account,
+					error: res.body.error + ": " + res.body.message
 				});
 			}
 			accountDispatcher.handleServerAction({
 				actionType: accountConstants.ACCOUNT_SAVE_OK,
-				account: res.body
+				account: account
 			});
 		});
 	}

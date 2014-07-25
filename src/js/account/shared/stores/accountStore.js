@@ -15,13 +15,27 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.accountSelected = false;
 	store.emitChange();
 };
-actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError;
-actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = handleError;
-actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = handleError;
+actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError("An error occurred while searching, please try again.");
+actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = handleError("An error occurred while fetching that account, please try again.");
 
-function handleError(action) {
-	store.error = action.error;
+actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
+	var account = action.account;
+	var error = action.error;
+	store.message = "An error occurred while saving Account: " + account.domainName + " (" + account.name + "). Error: " + error;
 	store.emitChange();
+};
+
+actionHandlerMap[accountConstants.ACCOUNT_SAVE_OK] = function (action) {
+	var account = action.account;
+	store.message = "Account: " + account.domainName + " (" + account.name + ") saved.";
+	store.emitChange();
+};
+
+function handleError(msg) {
+	return function(action) {
+		store.error = msg + 'Error: ' + action.error;
+		store.emitChange();
+	}
 }
 
 var store = merge(EventEmitter.prototype, {
@@ -35,10 +49,10 @@ var store = merge(EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, listener);
 	},
 
-	statusMessage: null,
+	message: null,
 	error: null,
 	accountSelected: false,
-	
+
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		var action = payload.action;
 		console.log('accountStore.onDispatchedAction, action:', action);
