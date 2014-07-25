@@ -39,13 +39,14 @@ var cls = React.createClass({
 			return (<span></span>);
 
 		var possibleOwners = account.teamMembers.map(function (user) {
-			var selected = user.email == account.ownerEmail ? 'selected' : '';
+			var selected = user.administratorId == account.ownerId ? 'selected' : '';
 			return (
-				<option key={user.id} value={user.id}>{user.name} &lt;{user.email}&gt;</option>
+				<option key={user.administratorId} value={user.administratorId}>{user.administratorName} &lt;{user.administratorEmail}&gt;</option>
 			);
 		});
 
-		var unchanged = account.ownerId == account.lastOwnerId;
+		// if nothing has changed or there's only 1 admin
+		var formDisabled = false;//account.ownerId == account.lastOwnerId || account.teamMembers.length === 1;
 
 		return  (
 			<div className="col-sm-5">
@@ -54,13 +55,13 @@ var cls = React.createClass({
 				<form className="form-vertical" onSubmit={this.saveEdit}>
 					<div className="form-group">
 						<label className="sr-only" htmlFor="selectOwner">Owner</label>
-						<select name="selectOwner" value={account.ownerId} onChange={this.onChange}>
+						<select name="selectOwner" value={account.ownerId} onChange={this.onChange} disabled={formDisabled}>
 						{possibleOwners}
 						</select>
 					</div>
 					<div className="form-group">
 						<button type="button" className="btn" onClick={this.abandonEdit}>Close</button>
-						<button type="submit" className="btn btn-primary" disabled={unchanged}>Save</button>
+						<button type="submit" className="btn btn-primary" disabled={formDisabled}>Save</button>
 					</div>
 				</form>
 			</div>

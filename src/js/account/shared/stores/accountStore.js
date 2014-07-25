@@ -8,11 +8,12 @@ var CHANGE_EVENT = 'change';
 
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
+	resetState();
 	store.accountSelected = true;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
-	store.accountSelected = false;
+	resetState();
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError("An error occurred while searching, please try again.");
@@ -21,19 +22,31 @@ actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = handleError("An error o
 actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
 	var account = action.account;
 	var error = action.error;
-	store.message = "An error occurred while saving Account: " + account.domainName + " (" + account.name + "). Error: " + error;
+	store.error = "An error occurred while saving Account: " + account.domainName + " (" + account.name + "). Error: " + error;
+	store.message = null;
 	store.emitChange();
 };
-
+actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
+	resetState();
+	store.emitChange();
+};
 actionHandlerMap[accountConstants.ACCOUNT_SAVE_OK] = function (action) {
 	var account = action.account;
+	store.error = null;
 	store.message = "Account: " + account.domainName + " (" + account.name + ") saved.";
 	store.emitChange();
 };
 
+function resetState() {
+	store.error = null;
+	store.message = null;
+	store.accountSelected = false;
+}
+
 function handleError(msg) {
 	return function(action) {
 		store.error = msg + 'Error: ' + action.error;
+		store.message = null;
 		store.emitChange();
 	}
 }

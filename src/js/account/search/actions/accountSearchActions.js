@@ -12,7 +12,7 @@ var actions = {
 			if(err || res.error) {
 				return accountDispatcher.handleServerAction({
 					actionType: accountConstants.ACCOUNT_SEARCH_ERROR,
-					error: err || res.body
+					error: res.body.error + ": " + res.body.message
 				});
 			}
 			accountDispatcher.handleServerAction({
@@ -36,7 +36,7 @@ var actions = {
 			if(err || res.error) {
 				return accountDispatcher.handleServerAction({
 					actionType: accountConstants.ACCOUNT_FETCH_ERROR,
-					error: err || res.body
+					error: res.body.error + ": " + res.body.message
 				});
 			}
 			accountDispatcher.handleServerAction({

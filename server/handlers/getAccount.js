@@ -1,19 +1,38 @@
 var _ = require('lodash');
+var Boom = require('boom');
+var mysql = require('mysql');
+var config = require('../config');
 
 module.exports = function (request, reply) {
 	var accountId = request.params.accountId;
 
-	reply({
-		id: accountId,
-		name: 'Account ' + accountId,
-		domainName: 'account' + accountId + '.mindflash.com',
-		ownerId: 4,
-		teamMembers: _.map(_.range(0, 10), function (i) {
-			return {
-				id: i,
-				name: "Team Member " + i,
-				email: "teammember" + i + "@domain.com"
-			};
-		})
+	var sql = "SELECT \
+			a.id, \
+			a.name, \
+			d.FullName domainName, \
+			IFNULL(o.id, 0) ownerId, \
+			u.ID administratorId, \
+			u.Name administratorName, \
+			IFNULL(u.Email, u.Username) administratorEmail \
+		FROM account a \
+		JOIN domain d ON a.ID = d.accountId \
+		LEFT JOIN userrecord o ON a.OwnerEmail = o.Email \
+		JOIN userrecord u ON a.ID = u.AccountID \
+		WHERE d.RecordType = 145000100 /*Primary*/ \
+		AND u.Permissions = 169000400 /*Administrator*/ \
+		AND a.id = ?";
+
+	var connection = mysql.createConnection(config.mysql);
+	connection.connect(function(err) {
+		if (err) return reply(Boom.badImplementation(err.message));
+
+		connection.query(sql, [accountId], function (err, rows) {
+			if (err) return reply(Boom.badImplementation(err.message));
+			if (!rows.length) return reply({});
+
+			var account = _.pick(rows[0], 'id', 'name', 'domainName', 'ownerId');
+			account.teamMembers = _.map(rows, _.partialRight(_.pick, 'administratorId', 'administratorName', 'administratorEmail'));
+			reply(account);
+		});
 	});
 };
