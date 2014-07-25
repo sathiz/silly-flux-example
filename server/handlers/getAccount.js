@@ -27,6 +27,7 @@ module.exports = function (request, reply) {
 		if (err) return reply(Boom.badImplementation(err.message));
 
 		connection.query(sql, [accountId], function (err, rows) {
+			connection.end();
 			if (err) return reply(Boom.badImplementation(err.message));
 			if (!rows.length) return reply({});
 

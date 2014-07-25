@@ -20,6 +20,7 @@ module.exports = function (request, reply) {
 		if (err) return reply(Boom.badImplementation(err.message));
 
 		connection.query(sql, [ownerId, accountId], function (err, res) {
+			connection.end();
 			if (err) return reply(Boom.badImplementation(err.message));
 			if (res.affectedRows !== 1) return reply(Boom.badImplementation("(" + res.affectedRows + ") were affected."));
 			reply();
