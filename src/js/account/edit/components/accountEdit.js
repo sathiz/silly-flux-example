@@ -47,11 +47,17 @@ var cls = React.createClass({
 
 		// if nothing has changed or there's only 1 admin
 		var formDisabled = account.ownerId == account.lastOwnerId;
+
 		var ownerSelectDisabled = account.teamMembers.length === 1;
+
+		var note = '';
+		if(ownerSelectDisabled)
+			note = "There's only 1 Administrator in this account, so you can't make anyone else an owner.";
 
 		return  (
 			<div className="col-sm-5">
 				<h2>Change Owner</h2>
+				<span>{note}</span>
 				<p>Account: {account.domainName} ({account.name})</p>
 				<form className="form-vertical" onSubmit={this.saveEdit}>
 					<div className="form-group">
