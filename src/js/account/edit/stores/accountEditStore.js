@@ -19,13 +19,21 @@ actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = function (action) {
-	store.account = null;
+	closeAccount();
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
-	store.account = null;
+	closeAccount();
 	store.emitChange();
 };
+actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
+	closeAccount();
+	store.emitChange();
+};
+
+function closeAccount() {
+	store.account = null;
+}
 
 var store = merge(EventEmitter.prototype, {
 	emitChange: function () {

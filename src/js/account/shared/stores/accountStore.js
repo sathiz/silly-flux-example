@@ -26,7 +26,7 @@ actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
 	store.message = null;
 	store.emitChange();
 };
-actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {
+actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
 	resetState();
 	store.emitChange();
 };
