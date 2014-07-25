@@ -2,6 +2,9 @@ silly-flux-example
 ==================
 To run:
 ```shell
+npm i
+cd server
+npm i
 node server/index.js &
 gulp
 ```
