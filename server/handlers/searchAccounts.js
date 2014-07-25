@@ -8,7 +8,7 @@ module.exports = function (request, reply) {
 	if(~['null',''].indexOf(request.query.search))
 		search = '%';
 
-	var sql = "SELECT \
+	var sql = "SELECT DISTINCT \
 			a.id, \
 			a.name, \
 			d.FullName domainName, \
@@ -26,7 +26,8 @@ module.exports = function (request, reply) {
 		AND ( \
 			a.Name LIKE ? \
 			OR d.FullName LIKE ? \
-		)";
+		) \
+		ORDER BY a.name";
 
 	var connection = mysql.createConnection(config.mysql);
 	connection.connect(function(err) {
