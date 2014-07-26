@@ -2,9 +2,7 @@ var appDispatcher = require('../../shared/dispatchers/accountDispatcher');
 var accountConstants = require('../../shared/constants/accountConstants');
 var merge = require('react/lib/merge');
 var _ = require('lodash');
-var EventEmitter = require('events').EventEmitter;
-
-var CHANGE_EVENT = 'change';
+var Store = require('../../../lesspain/store');
 
 var actionHandlerMap = {};
 // optimistic
@@ -27,20 +25,13 @@ function closeAccount() {
 	store.emitChange();
 }
 
-var store = merge(EventEmitter.prototype, {
-	emitChange: function () {
-		this.emit(CHANGE_EVENT);
-	},
-	addChangeListener: function (listener) {
-		this.on(CHANGE_EVENT, listener);
-	},
-	removeChangeListener: function (listener) {
-		this.removeListener(CHANGE_EVENT, listener);
-	},
-	account: null,
+var store = merge(Store, {
+	message: null,
+	error: null,
+	accountSelected: false,
+
 	onDispatchedAction: appDispatcher.register(function (payload) {
 		var action = payload.action;
-		console.log('accountEditStore.onDispatchedAction, action:', action);
 		if (actionHandlerMap[action.actionType])
 			actionHandlerMap[action.actionType](action);
 

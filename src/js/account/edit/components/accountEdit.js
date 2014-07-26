@@ -13,6 +13,9 @@ var cls = React.createClass({
 	getInitialState: function () {
 		return getStateFromStore();
 	},
+	shouldComponentUpdate: function(nextProps, nextState) {
+		return this.state.account != nextState.account;
+	},
 	componentWillMount: function () {
 		store.addChangeListener(this.onStoreChange);
 	},

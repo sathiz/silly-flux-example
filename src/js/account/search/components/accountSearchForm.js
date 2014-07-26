@@ -11,6 +11,9 @@ var cls = React.createClass({
 	getInitialState: function () {
 		return getLastSearch();
 	},
+	shouldComponentUpdate: function(nextProps, nextState) {
+		return this.state.search != nextState.search;
+	},
 	componentWillMount: function () {
 		store.addChangeListener(this.onStoreChange);
 	},

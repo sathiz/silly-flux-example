@@ -18,6 +18,11 @@ var app = React.createClass({
 	getInitialState: function () {
 		return getStateFromStore();
 	},
+	shouldComponentUpdate: function(nextProps, nextState) {
+		return this.state.accountSelected != nextState.accountSelected
+			|| this.state.error != nextState.error
+			|| this.state.message != nextState.message;
+	},
 	componentWillMount: function () {
 		store.addChangeListener(this.onStoreChange);
 	},

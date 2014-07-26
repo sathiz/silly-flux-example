@@ -14,6 +14,9 @@ var accountSearch = React.createClass({
 	getInitialState: function () {
 		return getStateFromStore();
 	},
+	shouldComponentUpdate: function(nextProps, nextState) {
+		return this.state.accountSelected != nextState.accountSelected;
+	},
 	componentWillMount: function () {
 		store.addChangeListener(this.onStoreChange);
 	},
