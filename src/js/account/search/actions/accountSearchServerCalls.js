@@ -2,6 +2,7 @@ var superagent = require('superagent');
 
 var api = {
 	searchAccounts: function (search) {
+		search = search || '';
 		return superagent
 			.get('/api/account?search=' + search)
 			.set('Accept', 'application/json');

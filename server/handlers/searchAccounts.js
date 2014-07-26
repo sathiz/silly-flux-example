@@ -5,8 +5,8 @@ var config = require('../config');
 
 module.exports = function (request, reply) {
 	var search = '%' + request.query.search + '%';
-	if(~['null',''].indexOf(request.query.search))
-		search = '%';
+	if(!request.query.search)
+		search = null;
 
 	var sql = "SELECT \
 		a.id, \
@@ -27,18 +27,25 @@ module.exports = function (request, reply) {
 		127000200, /*NonPayment*/ \
 		127000400, /*AdministrativeDisableDEPRECIATED*/ \
 		127000700 /*Cancelled*/ \
-	) \
-	AND ( \
-		a.Name LIKE ? \
-		OR d.FullName LIKE ? \
-	) \
-	ORDER BY a.name";
+	)";
+
+	var args = [];
+	if(search) {
+		args = [search, search, search.replace(/%/g, '')];
+		sql += " AND ( \
+				a.Name LIKE ? \
+				OR d.FullName LIKE ? \
+				OR a.id = ? \
+			)";
+	}
+
+	sql += " ORDER BY a.name";
 
 	var connection = mysql.createConnection(config.mysql);
 	connection.connect(function(err) {
 		if (err) return reply(Boom.badImplementation(err.message));
 
-		connection.query(sql, [search, search], function (err, rows) {
+		connection.query(sql, args, function (err, rows) {
 			connection.end();
 			if (err) return reply(Boom.badImplementation(err.message));
 			if (!rows.length) return reply({});

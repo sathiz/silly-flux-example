@@ -12,7 +12,8 @@ module.exports = function (request, reply) {
 			SELECT u.email \
 			FROM userrecord u \
 			WHERE u.id = ? \
-		) \
+		), \
+		modified = UTC_TIMESTAMP \
 		WHERE id = ?";
 
 	var connection = mysql.createConnection(config.mysql);
