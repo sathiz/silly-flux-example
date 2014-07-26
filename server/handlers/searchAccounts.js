@@ -31,12 +31,18 @@ module.exports = function (request, reply) {
 
 	var args = [];
 	if(search) {
-		args = [search, search, search.replace(/%/g, '')];
-		sql += " AND ( \
+		// if this is an accountId
+		var n = parseInt(search.replace(/%/g, ''), 10);
+		if(!_.isNaN(n)) {
+			args  = [n];
+			sql += " AND a.id = ?";
+		} else {
+			args = [search, search];
+			sql += " AND ( \
 				a.Name LIKE ? \
 				OR d.FullName LIKE ? \
-				OR a.id = ? \
 			)";
+		}
 	}
 
 	sql += " ORDER BY a.name";
