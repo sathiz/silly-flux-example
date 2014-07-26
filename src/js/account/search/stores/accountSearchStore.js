@@ -23,6 +23,7 @@ function sortSearchResults(field) {
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
 	store.lastSearch = action.search;
+	store.accountSelected = false;
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_OK] = function (action) {

@@ -12,10 +12,8 @@ actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
 	store.accountSelected = true;
 	store.emitChange();
 };
-actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
-	resetState();
-	store.emitChange();
-};
+actionHandlerMap[accountConstants.ABANDON_EDIT] = resetState;
+actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = resetState;
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError("An error occurred while searching, please try again.");
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = handleError("An error occurred while fetching that account, please try again.");
 
@@ -24,10 +22,6 @@ actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
 	var error = action.error;
 	store.error = "An error occurred while saving Account: " + account.domainName + " (" + account.name + "). Error: " + error;
 	store.message = null;
-	store.emitChange();
-};
-actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = function (action) {
-	resetState();
 	store.emitChange();
 };
 actionHandlerMap[accountConstants.ACCOUNT_SAVE_OK] = function (action) {
@@ -41,6 +35,7 @@ function resetState() {
 	store.error = null;
 	store.message = null;
 	store.accountSelected = false;
+	store.emitChange();
 }
 
 function handleError(msg) {
