@@ -52,6 +52,7 @@ actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
 			store.searchResults[key].owner = owner.administratorName + ' <' + owner.administratorEmail + '>';
 		}
 	});
+	store.accountSelected = false;
 	store.emitChange();
 };
 // error saving, reset account in list
