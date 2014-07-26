@@ -25,11 +25,13 @@ var cls = React.createClass({
 	abandonEdit: function() {
 		actions.abandonEdit();
 	},
-	saveEdit: function() {
+	saveEdit: function(e) {
+		e.preventDefault();
 		actions.saveEdit(this.state.account);
 		return false;
 	},
-	onChange: function(event) {
+	onChange: function(e) {
+		e.preventDefault();
 		this.state.account.ownerId = parseInt(event.target.value);
 		this.setState({account: this.state.account});
 	},
