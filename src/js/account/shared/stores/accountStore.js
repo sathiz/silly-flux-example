@@ -8,10 +8,12 @@ var CHANGE_EVENT = 'change';
 
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
-	resetState();
+	store.error = null;
+	store.message = null;
 	store.accountSelected = true;
 	store.emitChange();
 };
+
 actionHandlerMap[accountConstants.ABANDON_EDIT] = resetState;
 actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = resetState;
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError("An error occurred while searching, please try again.");

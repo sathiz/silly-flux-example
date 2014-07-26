@@ -42,15 +42,28 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 	store.accountSelected = false;
 	store.emitChange();
 };
-// optimistic
+// optimistic - update the account in the list before the server returns
 actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
 	var account = action.account;
 	_.each(store.searchResults, function(result, key) {
 		if(account.id != account.id) return;
 
 		var owner = _.find(account.teamMembers, {administratorId: account.ownerId});
-		if(owner)
+		if(owner) {
+			store.searchResults[key].$oldOwner = owner;
 			store.searchResults[key].owner = owner.administratorName + ' <' + owner.administratorEmail + '>';
+		}
+	});
+	store.emitChange();
+};
+// error saving, reset account in list
+actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
+	var account = action.account;
+	_.each(store.searchResults, function(result, key) {
+		if(account.id != account.id) return;
+
+		if(account.$oldOwner)
+			store.searchResults[key].owner = store.searchResults[key].$oldOwner
 	});
 	store.emitChange();
 };
