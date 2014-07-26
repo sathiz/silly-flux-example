@@ -1,7 +1,7 @@
 var appDispatcher = require('../dispatchers/accountDispatcher');
 var accountConstants = require('../constants/accountConstants');
 var merge = require('react/lib/merge');
-var Store = require('../../../lesspain/store');
+var EventEmitter = require('events').EventEmitter;
 
 var actionHandlerMap = {};
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_OK] = function (action) {
@@ -45,7 +45,16 @@ function handleError(msg) {
 	}
 }
 
-var store = merge(Store, {
+var store = merge(EventEmitter.prototype, {
+	emitChange: function () {
+		this.emit('change');
+	},
+	addChangeListener: function (listener) {
+		this.on('change', listener);
+	},
+	removeChangeListener: function (listener) {
+		this.removeListener('change', listener);
+	},
 	message: null,
 	error: null,
 	accountSelected: false,

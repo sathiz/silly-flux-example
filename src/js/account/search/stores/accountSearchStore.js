@@ -1,7 +1,7 @@
 var appDispatcher = require('../../shared/dispatchers/accountDispatcher');
 var accountConstants = require('../../shared/constants/accountConstants');
 var merge = require('react/lib/merge');
-var Store = require('../../../lesspain/store');
+var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
 
 function sortSearchResults(field) {
@@ -66,7 +66,16 @@ actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
 	store.emitChange();
 };
 
-var store = merge(Store, {
+var store = merge(EventEmitter.prototype, {
+	emitChange: function () {
+		this.emit('change');
+	},
+	addChangeListener: function (listener) {
+		this.on('change', listener);
+	},
+	removeChangeListener: function (listener) {
+		this.removeListener('change', listener);
+	},
 	lastSearch: null,
 	searchResults: [],
 	sort: {field: null, asc: true},

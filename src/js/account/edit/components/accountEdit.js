@@ -13,9 +13,6 @@ var cls = React.createClass({
 	getInitialState: function () {
 		return getStateFromStore();
 	},
-	shouldComponentUpdate: function(nextProps, nextState) {
-		return this.state.account != nextState.account;
-	},
 	componentWillMount: function () {
 		store.addChangeListener(this.onStoreChange);
 	},
@@ -33,7 +30,7 @@ var cls = React.createClass({
 		return false;
 	},
 	onChange: function(event) {
-		this.state.account.ownerId = event.target.value;
+		this.state.account.ownerId = parseInt(event.target.value);
 		this.setState({account: this.state.account});
 	},
 	render: function() {
