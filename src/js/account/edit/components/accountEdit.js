@@ -49,7 +49,6 @@ var cls = React.createClass({
 
 		// if nothing has changed or there's only 1 admin
 		var formDisabled = account.ownerId == account.lastOwnerId;
-
 		var ownerSelectDisabled = account.teamMembers.length === 1;
 
 		var note = '';

@@ -35,7 +35,7 @@ module.exports = function (request, reply) {
 		connection.query(sql, [accountId], function (err, rows) {
 			connection.end();
 			if (err) return reply(Boom.badImplementation(err.message));
-			if (!rows.length) return reply({});
+			if (!rows.length) return reply(Boom.badImplementation("Account has no administrators."));
 
 			var account = _.pick(rows[0], 'id', 'name', 'domainName', 'ownerId');
 			account.teamMembers = _.map(rows, _.partialRight(_.pick, 'administratorId', 'administratorName', 'administratorEmail'));
