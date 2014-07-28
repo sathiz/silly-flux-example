@@ -1,6 +1,6 @@
-var source = require('vinyl-source-stream');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var reactify = require('reactify');
 var watchify = require('watchify');
@@ -11,43 +11,54 @@ var minifyCss = require('gulp-minify-css');
 var usemin = require('gulp-usemin');
 var minifyHtml = require('gulp-minify-html');
 var rev = require('gulp-rev');
+var through2 = require('through2');
+var runSequence = require('run-sequence');
 
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
-	notify.onError({
-		title: 'Error',
-		message: '<%= error.message %>'
-	}).apply(this, args);
+	notify.onError({ title: 'Error', message: '<%= error.message %>'}).apply(this, args);
 	this.emit('end'); // Keep gulp from hanging on this task
 }
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
+
+var revdJsFiles = [];
+
 function buildJs(params) {
-	var destJsFile = params.file;
-	var deploy = params.deploy;
+	var file = params.file;
+	var watch = params.watch;
 
 	return function () {
-		var entries = {entries: ['./src/js/' + destJsFile]};
-		var bundler = deploy ? browserify(entries) : watchify(entries);
+		var props = {entries: ['./src/js/' + file]};
+		var bundler = watch ? watchify(props) : browserify(props);
 
 		bundler.transform(reactify);
 
 		function rebundle() {
-			var stream = bundler.bundle({debug: !deploy})
+			var stream = bundler.bundle({debug: watch})
 				.on('error', handleErrors)
-				.pipe(source(destJsFile));
+				.pipe(source(file));
 
-			if (deploy) {
+			if (!watch) {
 				return stream
 					.pipe(streamify(uglify()))
-					.pipe(streamify(rev()));
+					.pipe(streamify(rev()))
+					.pipe(through2.obj(function (file, enc, done) {
+						revdJsFiles.push({
+							old: file.revOrigPath.replace(file.revOrigBase, ''),
+							new: file.path.replace(file.revOrigBase, '')
+						});
+						done(null, file);
+					}))
+					.pipe(gulp.dest('./dist/js/'));
 			}
-			return stream.pipe(gulp.dest('dist/js/'));
+
+			return stream.pipe(gulp.dest('./dist/js/'));
 		}
 
 		bundler.on('update', function () {
 			rebundle();
-			gutil.log('Rebundle');
+			gutil.log('Rebundle...');
 		});
 
 		return rebundle();
@@ -55,13 +66,13 @@ function buildJs(params) {
 }
 
 gulp.task('copy-images', function () {
-	gulp.src('./src/images/**/*', {base: './src/images'})
+	return gulp.src('./src/images/**/*', {base: './src/images'})
 		.on('error', handleErrors)
 		.pipe(gulp.dest('./dist/images/'));
 });
 
 gulp.task('usemin', function () {
-	gulp.src('./src/index.html')
+	return gulp.src('./src/index.html')
 		.pipe(usemin({
 			css: [minifyCss(), 'concat'],
 			html: [minifyHtml({empty: true})]
@@ -69,8 +80,27 @@ gulp.task('usemin', function () {
 		.pipe(gulp.dest('dist/'));
 });
 
-gulp.task('build', buildJs({file: 'main.js', deploy: true}));
-gulp.task('watch', buildJs({file: 'main.js', deploy: false}));
+// hack fix for renaming main.js -> main-HASH.js in index.html
+gulp.task('fix-revd-js-files-in-index', function () {
+	return gulp.src('./dist/index.html')
+		.pipe(through2.obj(function (file, enc, done) {
+			var indexContents = file.contents.toString();
 
-gulp.task('default', ['usemin', 'copy-images', 'watch']);
-gulp.task('deploy', ['usemin', 'copy-images', 'build']);
+			revdJsFiles.forEach(function(revdJsFile) {
+				indexContents = indexContents.replace(revdJsFile.old, revdJsFile.new);
+			});
+
+			file.contents = new Buffer(indexContents);
+			done(null, file);
+		}))
+		.pipe(gulp.dest('dist/'));
+});
+
+gulp.task('watch-js', buildJs({file: 'main.js', watch: true}));
+gulp.task('deploy-js', buildJs({file: 'main.js', watch: false}));
+
+gulp.task('default', ['copy-images', 'usemin', 'watch-js']);
+
+gulp.task('deploy', function(cb) {
+	runSequence(['copy-images', 'usemin', 'deploy-js'], 'fix-revd-js-files-in-index', cb);
+});
