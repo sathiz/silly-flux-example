@@ -21,8 +21,6 @@ function handleErrors() {
 	this.emit('end'); // Keep gulp from hanging on this task
 }
 
-// Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
-
 var revdJsFiles = [];
 
 function buildJs(params) {
