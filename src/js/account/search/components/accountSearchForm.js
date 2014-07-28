@@ -43,7 +43,7 @@ var cls = React.createClass({
 					<label className="sr-only" htmlFor="inputSearch">Search</label>
 					<input type="text" className="form-control" id="inputSearch" placeholder="Search" value={this.state.search}
 						onChange={this.onChange} onKeyDown={this.onKeyDown} autoFocus={true} />
-				</div>
+				</div>&nbsp;
 				<button className="btn btn-primary" type="submit">Search</button>
 			</form>
 		);
