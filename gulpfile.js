@@ -49,7 +49,6 @@ function buildJs(params) {
 							old: path.basename(file.revOrigPath),
 							new: path.basename(file.path)
 						});
-						console.log(revdJsFiles);
 						done(null, file);
 					}))
 					.pipe(gulp.dest('./dist/js/'));
@@ -82,7 +81,7 @@ gulp.task('usemin', function () {
 		.pipe(gulp.dest('dist/'));
 });
 
-// hack fix for renaming main.js -> main-HASH.js in index.html
+// renames JS files changed by grunt-rev in the buildJS function above
 gulp.task('fix-revd-js-files-in-index', function () {
 	return gulp.src('./dist/index.html')
 		.pipe(through2.obj(function (file, enc, done) {
