@@ -58,6 +58,7 @@ var cls = React.createClass({
 		return  (
 			<div className="col-sm-5">
 				<h2>Change Owner</h2>
+				<button type="button" className="close" onClick={this.abandonEdit}><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
 				<span>{note}</span>
 				<p>Account: {account.domainName} ({account.name})</p>
 				<form className="form-vertical" onSubmit={this.saveEdit}>
@@ -68,7 +69,6 @@ var cls = React.createClass({
 						</select>
 					</div>
 					<div className="form-group">
-						<button type="button" className="btn" onClick={this.abandonEdit}>Close</button>
 						<button type="submit" className="btn btn-primary" disabled={formDisabled}>Save</button>
 					</div>
 				</form>

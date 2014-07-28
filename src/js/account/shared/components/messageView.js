@@ -2,12 +2,17 @@
 var React = require('react');
 
 var cls = React.createClass({
+	propTypes: {
+		close: React.PropTypes.func.isRequired,
+		message: React.PropTypes.string
+	},
 	render: function () {
-		var message = this.props.message;
-		if(!message) return (<span></span>);
-
+		if(!this.props.message) return (<span></span>);
 		return (
-			<div className="message">{message}</div>
+			<div className="message-top bg-success" onClick={this.props.close}>
+				<span>{this.props.message}</span>
+				<button type="button" className="close" onClick={this.props.close}><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
+			</div>
 		);
 	}
 });

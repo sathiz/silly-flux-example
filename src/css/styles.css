@@ -1,3 +1,6 @@
 .table-responsive {
 	overflow-x: auto;
 }
+.message-top {
+	padding: 10px;
+}

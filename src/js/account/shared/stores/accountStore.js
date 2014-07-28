@@ -23,6 +23,12 @@ actionHandlerMap[accountConstants.SEARCHING_ACCOUNTS] = resetState;
 actionHandlerMap[accountConstants.ACCOUNT_SEARCH_ERROR] = handleError("An error occurred while searching, please try again.");
 actionHandlerMap[accountConstants.ACCOUNT_FETCH_ERROR] = handleError("An error occurred while fetching that account, please try again.");
 
+actionHandlerMap[accountConstants.CLOSE_MESSAGE] = function (action) {
+	store.error = null;
+	store.message = null;
+	store.emitChange();
+};
+
 actionHandlerMap[accountConstants.ACCOUNT_SAVE_ERROR] = function (action) {
 	var account = action.account;
 	var error = action.error;

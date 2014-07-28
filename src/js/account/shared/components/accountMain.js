@@ -5,6 +5,7 @@ var accountSearch = require('../../search/components/accountSearch');
 var accountEdit = require('../../edit/components/accountEdit');
 var errorView = require('./errorView');
 var messageView = require('./messageView');
+var actions = require('../actions/accountSharedActions');
 
 function getStateFromStore() {
 	return {
@@ -32,12 +33,15 @@ var app = React.createClass({
 	onStoreChange: function () {
 		this.setState(getStateFromStore());
 	},
+	clearErrorAndMessage: function() {
+		actions.closeMessage();
+	},
 	render: function() {
 		var messageOrError = <span></span>;
 		if(this.state.error)
-			messageOrError = <errorView error={this.state.error}/>;
+			messageOrError = <errorView error={this.state.error} close={this.clearErrorAndMessage}/>;
 		if(this.state.message)
-			messageOrError = <messageView message={this.state.message}/>;
+			messageOrError = <messageView message={this.state.message} close={this.clearErrorAndMessage}/>;
 
 		if(!this.state.accountSelected) {
 			return (
