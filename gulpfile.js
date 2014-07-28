@@ -1,3 +1,4 @@
+var path = require('path');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
@@ -45,9 +46,10 @@ function buildJs(params) {
 					.pipe(streamify(rev()))
 					.pipe(through2.obj(function (file, enc, done) {
 						revdJsFiles.push({
-							old: file.revOrigPath.replace(file.revOrigBase, ''),
-							new: file.path.replace(file.revOrigBase, '')
+							old: path.basename(file.revOrigPath),
+							new: path.basename(file.path)
 						});
+						console.log(revdJsFiles);
 						done(null, file);
 					}))
 					.pipe(gulp.dest('./dist/js/'));
