@@ -3,9 +3,6 @@ var React = require('react');
 var actions = require('../actions/accountSearchActions');
 
 var cls = React.createClass({
-	shouldComponentUpdate: function(nextProps, nextState) {
-		return this.props.account.id != nextProps.account.id;
-	},
 	onClick: function (event) {
 		if (!event) return;
 		actions.requestAccount(this.props.account.id);

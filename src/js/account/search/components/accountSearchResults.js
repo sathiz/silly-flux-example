@@ -15,10 +15,6 @@ var accountSearchResults = React.createClass({
 	getInitialState: function () {
 		return getStateFromStore();
 	},
-	shouldComponentUpdate: function(nextProps, nextState) {
-		return this.state.results != nextState.results
-			|| this.state.sortBy != nextState.sortBy;
-	},
 	componentWillMount: function () {
 		store.addChangeListener(this.onStoreChange);
 	},

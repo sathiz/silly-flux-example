@@ -43,12 +43,13 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 // optimistic - update the account in the list before the server returns
 actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
 	var account = action.account;
+
 	_.each(store.searchResults, function(result, key) {
 		if(account.id != account.id) return;
-
 		var owner = _.find(account.teamMembers, {administratorId: account.ownerId});
 		if(owner) {
-			store.searchResults[key].$oldOwner = owner;
+			store.searchResults[key].$oldOwner = store.searchResults[key].owner;
+			store.searchResults[key].ownerId = owner.administratorId;
 			store.searchResults[key].owner = owner.administratorName + ' <' + owner.administratorEmail + '>';
 		}
 	});
