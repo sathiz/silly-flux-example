@@ -21,13 +21,14 @@ module.exports = function (request, reply) {
 		AND o.status = 109000200 /*Active*/ \
 		AND o.Deleted IS NULL \
 		AND o.permissions = 169000400 /*Administrator*/ \
-		WHERE d.RecordType = 145000100 /*Primary*/ \
+	WHERE d.RecordType = 145000100 /*Primary*/ \
 	AND a.Status NOT IN ( \
 		127000500, /*Trial expired*/ \
 		127000200, /*NonPayment*/ \
 		127000400, /*AdministrativeDisableDEPRECIATED*/ \
 		127000700 /*Cancelled*/ \
-	)";
+	) \
+	AND a.deleted IS NULL";
 
 	var args = [];
 	if(search) {
