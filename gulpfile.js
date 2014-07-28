@@ -14,6 +14,7 @@ var minifyHtml = require('gulp-minify-html');
 var rev = require('gulp-rev');
 var through2 = require('through2');
 var runSequence = require('run-sequence');
+var rimraf = require('rimraf');
 
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
@@ -73,7 +74,7 @@ gulp.task('copy-images', function () {
 gulp.task('usemin', function () {
 	return gulp.src('./src/index.html')
 		.pipe(usemin({
-			css: [minifyCss(), 'concat'],
+			css: [minifyCss(), 'concat', rev()],
 			html: [minifyHtml({empty: true})]
 		}))
 		.pipe(gulp.dest('dist/'));
@@ -95,11 +96,17 @@ gulp.task('fix-revd-js-files-in-index', function () {
 		.pipe(gulp.dest('dist/'));
 });
 
+gulp.task('clean', function(cb){
+	rimraf('./dist', cb);
+});
+
 gulp.task('watch-js', buildJs({file: 'main.js', watch: true}));
 gulp.task('deploy-js', buildJs({file: 'main.js', watch: false}));
 
-gulp.task('default', ['copy-images', 'usemin', 'watch-js']);
+gulp.task('default', function(cb) {
+	runSequence('clean', ['copy-images', 'usemin', 'watch-js'], cb);
+});
 
 gulp.task('deploy', function(cb) {
-	runSequence(['copy-images', 'usemin', 'deploy-js'], 'fix-revd-js-files-in-index', cb);
+	runSequence('clean', ['copy-images', 'usemin', 'deploy-js'], 'fix-revd-js-files-in-index', cb);
 });
