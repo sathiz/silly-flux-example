@@ -29,7 +29,7 @@ function buildJs(params) {
 	var watch = params.watch;
 
 	return function () {
-		var props = {entries: ['./src/js/' + file]};
+		var props = {entries: ['./client/js/' + file]};
 		var bundler = watch ? watchify(props) : browserify(props);
 
 		bundler.transform(reactify);
@@ -66,13 +66,13 @@ function buildJs(params) {
 }
 
 gulp.task('copy-images', function () {
-	return gulp.src('./src/images/**/*', {base: './src/images'})
+	return gulp.src('./client/images/**/*', {base: './client/images'})
 		.on('error', handleErrors)
 		.pipe(gulp.dest('./dist/images/'));
 });
 
 gulp.task('usemin', function () {
-	return gulp.src('./src/index.html')
+	return gulp.src('./client/index.html')
 		.pipe(usemin({
 			css: [minifyCss(), 'concat', rev()],
 			html: [minifyHtml({empty: true})]
