@@ -46,11 +46,11 @@ actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
 
 	_.each(store.searchResults, function(result, key) {
 		if(account.id != account.id) return;
-		var owner = _.find(account.teamMembers, {administratorId: account.ownerId});
+		var owner = _.find(account.users, {id: account.ownerId});
 		if(owner) {
 			store.searchResults[key].$oldOwner = store.searchResults[key].owner;
-			store.searchResults[key].ownerId = owner.administratorId;
-			store.searchResults[key].owner = owner.administratorName + ' <' + owner.administratorEmail + '>';
+			store.searchResults[key].ownerId = owner.id;
+			store.searchResults[key].owner = owner.name + ' <' + owner.email + '>';
 		}
 	});
 	store.accountSelected = false;

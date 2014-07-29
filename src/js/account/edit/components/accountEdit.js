@@ -40,20 +40,20 @@ var cls = React.createClass({
 		if(!account)
 			return (<span></span>);
 
-		var possibleOwners = account.teamMembers.map(function (user) {
-			var selected = user.administratorId == account.ownerId ? 'selected' : '';
+		var possibleOwners = account.users.map(function (user) {
+			var selected = user.id == account.ownerId ? 'selected' : '';
 			return (
-				<option key={user.administratorId} value={user.administratorId}>{user.administratorName} &lt;{user.administratorEmail}&gt;</option>
+				<option key={user.id} value={user.id}>{user.name} &lt;{user.email}&gt;</option>
 			);
 		});
 
 		// if nothing has changed or there's only 1 admin
 		var formDisabled = account.ownerId == account.lastOwnerId;
-		var ownerSelectDisabled = account.teamMembers.length === 1;
+		var ownerSelectDisabled = account.users.length === 1;
 
 		var note = '';
 		if(ownerSelectDisabled)
-			note = "There's only 1 Administrator in this account, so you can't make anyone else an owner.";
+			note = "There's only 1 user in this account, so you can't make anyone else an owner.";
 
 		return  (
 			<div className="col-sm-5">
