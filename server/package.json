@@ -5,6 +5,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"JSONStream": "^0.8.4",
 		"boom": "^2.4.2",
 		"good": "^2.2.0",
 		"hapi": "^6.2.0",

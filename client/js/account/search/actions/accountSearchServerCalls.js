@@ -5,14 +5,12 @@ var api = {
 		search = search || '';
 		return superagent
 			.get('/api/account?search=' + search)
-			.set('Accept', 'application/json')
-			.set('Accept-Encoding', 'gzip');
+			.set('Accept', 'application/json');
 	},
 	getAccount: function (accountId) {
 		return superagent
 			.get('/api/account/' + accountId)
-			.set('Accept', 'application/json')
-			.set('Accept-Encoding', 'gzip');
+			.set('Accept', 'application/json');
 	}
 };
 
