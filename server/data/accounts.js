@@ -56,7 +56,10 @@ module.exports = {
 	},
 	set: function(account) {
 		var idx = _.findIndex(accounts, {id: account.id});
+		var newOwner = _.find(accounts[idx].users, {id: account.ownerId});
+
 		accounts[idx] = account;
+		accounts[idx].owner = newOwner.name + ' <' + newOwner.email + '>';
 	},
 	search: function(search) {
 		if(!search) return accounts;
