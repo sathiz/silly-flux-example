@@ -31,7 +31,6 @@ var cls = React.createClass({
 		return false;
 	},
 	onChange: function(e) {
-		e.preventDefault();
 		this.state.account.ownerId = parseInt(event.target.value);
 		this.setState({account: this.state.account});
 	},

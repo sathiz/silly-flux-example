@@ -7,8 +7,8 @@ var adjectivesLength = adjectives.length-1;
 var firstNamesLength = firstNames.length-1;
 var lastNamesLength = lastNames.length-1;
 
-var accountId = -1;
-var userId = -1;
+var accountId = 1;
+var userId = 1;
 
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -43,16 +43,13 @@ actionHandlerMap[accountConstants.ABANDON_EDIT] = function (action) {
 // optimistic - update the account in the list before the server returns
 actionHandlerMap[accountConstants.SAVING_ACCOUNT] = function (action) {
 	var account = action.account;
+	var resultIdx = _.findIndex(store.searchResults, {id: account.id});
+	var newOwner = _.find(store.searchResults[resultIdx].users, {id: account.ownerId});
 
-	_.each(store.searchResults, function(result, key) {
-		if(account.id != account.id) return;
-		var owner = _.find(account.users, {id: account.ownerId});
-		if(owner) {
-			store.searchResults[key].$oldOwner = store.searchResults[key].owner;
-			store.searchResults[key].ownerId = owner.id;
-			store.searchResults[key].owner = owner.name + ' <' + owner.email + '>';
-		}
-	});
+	store.searchResults[resultIdx].$oldOwner = store.searchResults[resultIdx].owner;
+	store.searchResults[resultIdx].ownerId = newOwner.id;
+	store.searchResults[resultIdx].owner = newOwner.name + ' <' + newOwner.email + '>';
+
 	store.accountSelected = false;
 	store.emitChange();
 };
