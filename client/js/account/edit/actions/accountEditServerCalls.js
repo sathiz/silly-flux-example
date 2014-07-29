@@ -7,7 +7,8 @@ var api = {
 			.send({
 				ownerId: account.ownerId
 			})
-			.set('Accept', 'application/json');
+			.set('Accept', 'application/json')
+			.set('Accept-Encoding', 'gzip');
 	}
 };
 
