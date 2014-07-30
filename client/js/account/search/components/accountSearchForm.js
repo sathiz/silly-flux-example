@@ -27,11 +27,6 @@ var cls = React.createClass({
 		if (!event) return;
 		this.setState({ search: event.target.value });
 	},
-	onKeyDown: function (event) {
-		// search on enter key
-		if (event && event.keyCode === 13)
-			this.search();
-	},
 	search: function () {
 		actions.searchAccounts(this.state.search);
 		return false;
@@ -42,7 +37,7 @@ var cls = React.createClass({
 				<div className="form-group">
 					<label className="sr-only" htmlFor="inputSearch">Search</label>
 					<input type="text" className="form-control" id="inputSearch" placeholder="Search" value={this.state.search}
-						onChange={this.onChange} onKeyDown={this.onKeyDown} autoFocus={true} />
+						onChange={this.onChange} autoFocus={true} />
 				</div>&nbsp;
 				<button className="btn btn-primary" type="submit">Search</button>
 			</form>
