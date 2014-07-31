@@ -57,9 +57,7 @@ function ArrayObjectReadStream(data) {
 	stream.Readable.call(self, { objectMode: true });
 
 	self._read = function () {
-		data.forEach(function (element) {
-			self.push(element);
-		});
+		data.forEach(function(e) { self.push(e); });
 		self.push(null);
 	};
 }

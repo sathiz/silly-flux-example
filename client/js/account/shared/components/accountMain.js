@@ -39,7 +39,7 @@ var app = React.createClass({
 	render: function() {
 		var messageOrError = <span></span>;
 		if(this.state.error)
-			messageOrError = <errorView error={this.state.error} close={this.clearErrorAndMessage}/>;
+			messageOrError = <errorView message={this.state.error} close={this.clearErrorAndMessage}/>;
 		if(this.state.message)
 			messageOrError = <messageView message={this.state.message} close={this.clearErrorAndMessage}/>;
 

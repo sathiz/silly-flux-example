@@ -7,10 +7,10 @@ var cls = React.createClass({
 		error: React.PropTypes.string
 	},
 	render: function () {
-		if(!this.props.error) return (<span></span>);
+		if(!this.props.message) return (<span></span>);
 		return (
 			<div className="message-top bg-danger" onClick={this.props.close}>
-				<p>{this.props.error}</p>
+				<p>{this.props.message}</p>
 				<button type="button" className="close" onClick={this.props.close}><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
 			</div>
 		);
