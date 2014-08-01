@@ -60,15 +60,15 @@ var cls = React.createClass({
 				<button type="button" className="close" onClick={this.abandonEdit}><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
 				<span>{note}</span>
 				<p>Account: {account.domainName} ({account.name})</p>
-				<form className="form-vertical" onSubmit={this.saveEdit}>
+				<form className="form-vertical" onSubmit={this.saveEdit} autoFocus={true}>
 					<div className="form-group">
 						<label className="sr-only" htmlFor="selectOwner">Owner</label>
-						<select name="selectOwner" value={account.ownerId} onChange={this.onChange} disabled={ownerSelectDisabled}>
+						<select name="selectOwner" value={account.ownerId} onChange={this.onChange} disabled={ownerSelectDisabled} tabIndex="2">
 						{possibleOwners}
 						</select>
 					</div>
 					<div className="form-group">
-						<button type="submit" className="btn btn-primary" disabled={formDisabled}>Save</button>
+						<button type="submit" className="btn btn-primary" disabled={formDisabled} tabIndex="3">Save</button>
 					</div>
 				</form>
 			</div>
