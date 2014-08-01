@@ -10,15 +10,28 @@ var server = new Hapi.Server('0.0.0.0', process.env.PORT || config.port);
 server.route({
 	method: 'GET',
 	path: '/{path*}',
-	handler: { directory: { path: path.join(__dirname, '/../dist'), listing: false, index: true } }
+	handler: {
+		directory: {
+			path: path.join(__dirname, '/../dist'),
+			lookupCompressed: true,
+			listing: false,
+			index: true
+		}
+	}
 });
 
 // favicon
 server.route({
 	method: 'GET',
 	path: '/favicon.ico',
-	handler: { file: path.join(__dirname, '/../dist/images/favicon.ico') },
-	config: { cache: { expiresIn: 30 * 86400000 } } // 30 days
+	handler: {
+		file: path.join(__dirname, '/../dist/images/favicon.ico')
+	},
+	config: {
+		cache: {
+			expiresIn: 30 * 86400000 // 30 days
+		}
+	}
 });
 
 // api calls

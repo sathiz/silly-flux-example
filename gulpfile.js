@@ -15,6 +15,7 @@ var rev = require('gulp-rev');
 var through2 = require('through2');
 var runSequence = require('run-sequence');
 var rimraf = require('rimraf');
+var gzip = require('gulp-gzip');
 
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
@@ -65,6 +66,18 @@ function buildJs(params) {
 	};
 }
 
+gulp.task('gzip-deploy', function() {
+	gulp.src('./dist/js/**/*')
+		.pipe(gzip())
+		.pipe(gulp.dest('./dist/js/'));
+	gulp.src('./dist/css/**/*')
+		.pipe(gzip())
+		.pipe(gulp.dest('./dist/css/'));
+	gulp.src('./dist/images/**/*')
+		.pipe(gzip())
+		.pipe(gulp.dest('./dist/images/'));
+});
+
 gulp.task('copy-images', function () {
 	return gulp.src('./client/images/**/*', {base: './client/images'})
 		.on('error', handleErrors)
@@ -108,5 +121,5 @@ gulp.task('default', function(cb) {
 });
 
 gulp.task('deploy', function(cb) {
-	runSequence('clean', ['copy-images', 'usemin', 'deploy-js'], 'fix-revd-js-files-in-index', cb);
+	runSequence('clean', ['copy-images', 'usemin', 'deploy-js'], 'fix-revd-js-files-in-index', 'gzip-deploy', cb);
 });
