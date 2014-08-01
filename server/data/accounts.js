@@ -21,8 +21,8 @@ function getRandomValue(arr, len) {
 }
 
 var accounts = _.map(_.range(0, 100), function () {
-	var adjective = getRandomValue(adjectives, adjectivesLength);
-	var domainName = adjective.toLowerCase() + '.com';
+	var adjective = getRandomValue(adjectives, adjectivesLength) + ' ' + getRandomValue(adjectives, adjectivesLength);
+	var domainName = adjective.toLowerCase().replace(/\s+/, '-') + '.com';
 
 	var amtUsers = getRandomInt(1, 15);
 	var users = _.map(_.range(0, amtUsers), makeAdmin(domainName));
