@@ -73,9 +73,6 @@ gulp.task('gzip-deploy', function() {
 	gulp.src('./dist/css/**/*')
 		.pipe(gzip())
 		.pipe(gulp.dest('./dist/css/'));
-	gulp.src('./dist/images/**/*')
-		.pipe(gzip())
-		.pipe(gulp.dest('./dist/images/'));
 });
 
 gulp.task('copy-images', function () {
