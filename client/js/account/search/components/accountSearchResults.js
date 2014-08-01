@@ -33,10 +33,10 @@ var accountSearchResults = React.createClass({
 		if(!this.state.results.length)
 			return (<span></span>);
 
-		var i = 6;
+		var i = 2;
 		var results = this.state.results.map(function (account) {
 			return (
-				<accountSearchResult key={account.id} account={account} tabIdx={++i} />
+				<accountSearchResult key={account.id} account={account} tabIndex={++i} />
 			);
 		});
 
@@ -56,10 +56,10 @@ var accountSearchResults = React.createClass({
 				<table className="table table-hover">
 					<thead>
 						<tr tabindex="2">
-							<th tabindex="3" onClick={this.sortBy('id')} className={cssClasses.name}>ID</th>
-							<th tabindex="4" onClick={this.sortBy('name')} className={cssClasses.name}>Name</th>
-							<th tabindex="5" onClick={this.sortBy('domainName')} className={cssClasses.domainName}>Domain</th>
-							<th tabindex="6" onClick={this.sortBy('owner')} className={cssClasses.owner}>Owner</th>
+							<th onClick={this.sortBy('id')} className={cssClasses.name}>ID</th>
+							<th onClick={this.sortBy('name')} className={cssClasses.name}>Name</th>
+							<th onClick={this.sortBy('domainName')} className={cssClasses.domainName}>Domain</th>
+							<th onClick={this.sortBy('owner')} className={cssClasses.owner}>Owner</th>
 						</tr>
 					</thead>
 					<tbody>

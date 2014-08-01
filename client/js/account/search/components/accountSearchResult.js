@@ -17,7 +17,7 @@ var cls = React.createClass({
 	render: function () {
 		var account = this.props.account;
 		return (
-			<tr onClick={this.onClick} tabindex={this.props.tabIdx} onKeyDown={this.onKeyDown}>
+			<tr onClick={this.onClick} tabIndex={this.props.tabIndex} onKeyDown={this.onKeyDown}>
 				<td>{account.id}</td>
 				<td>{account.name}</td>
 				<td>{account.domainName}</td>
