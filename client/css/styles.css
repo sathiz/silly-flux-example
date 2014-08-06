@@ -4,3 +4,18 @@
 .message-top {
 	padding: 10px;
 }
+.sortAsc{
+	background: url('../images/sort-asc.gif') no-repeat center;
+	background-size: 15px 10px;
+	display: inline-block;
+	height: 10px;
+	width: 20px;
+}
+
+.sortDesc{
+	background: url('../images/sort-desc.gif') no-repeat center;
+	background-size: 15px 10px;
+	display: inline-block;
+	height: 10px;
+	width: 20px;
+}

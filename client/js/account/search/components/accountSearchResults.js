@@ -41,11 +41,11 @@ var accountSearchResults = React.createClass({
 		var results = this.state.results.map(function (account) {
 			return (
 				<accountSearchResult key={account.id} account={account} tabIndex={++i} />
-			);
+				);
 		});
 
-		// todo - create a style for the sort arrows etc
 		var cssClasses = {
+			id: null,
 			name: null,
 			domainName: null,
 			owner: null
@@ -60,10 +60,10 @@ var accountSearchResults = React.createClass({
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th tabIndex="4" onKeyDown={this.sortBy('id')} onClick={this.sortBy('id')} className={cssClasses.name}>ID</th>
-							<th tabIndex="5" onKeyDown={this.sortBy('name')} onClick={this.sortBy('name')} className={cssClasses.name}>Name</th>
-							<th tabIndex="6" onKeyDown={this.sortBy('domainName')} onClick={this.sortBy('domainName')} className={cssClasses.domainName}>Domain</th>
-							<th tabIndex="7" onKeyDown={this.sortBy('owner')} onClick={this.sortBy('owner')} className={cssClasses.owner}>Owner</th>
+							<th tabIndex="4" onKeyDown={this.sortBy('id')} onClick={this.sortBy('id')}>ID<span className={cssClasses.id}></span></th>
+							<th tabIndex="5" onKeyDown={this.sortBy('name')} onClick={this.sortBy('name')}>Name<span className={cssClasses.name}></span></th>
+							<th tabIndex="6" onKeyDown={this.sortBy('domainName')} onClick={this.sortBy('domainName')}>Domain<span className={cssClasses.domainName}></span></th>
+							<th tabIndex="7" onKeyDown={this.sortBy('owner')} onClick={this.sortBy('owner')}>Owner<span className={cssClasses.owner}></span></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -71,7 +71,7 @@ var accountSearchResults = React.createClass({
 					</tbody>
 				</table>
 			</div>
-		);
+			);
 	}
 });
 module.exports = accountSearchResults;
